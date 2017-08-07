@@ -17,7 +17,6 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="<?=base_url()?>assets/css/blue.css">
 
- 
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
