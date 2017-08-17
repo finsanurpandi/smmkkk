@@ -6,17 +6,16 @@ class Login extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		//$this->load->model('m_login');
+		$this->load->model('m_login');
 	}
 
 	function index()
 	{
-		$this->load->view('login/login_form');
-
-		/*
+		
 		$session = $this->session->userdata('login_in');
 		$role = $this->session->userdata('role');
 
+		// check session
 		if ($session == FALSE) {
 			$this->load->view('login/login_form');
 		} else {
@@ -27,13 +26,9 @@ class Login extends CI_Controller {
 			} elseif ($role == 2) {
 				redirect('dosen', 'refresh');
 			} elseif ($role == 3) {
-				redirect('operator', 'refresh');
+				redirect('bagKeuangan', 'refresh');
 			} elseif ($role == 4) {
-				redirect('pimpinan', 'refresh');
-			} elseif ($role == 5) {
-				redirect('keuangan', 'refresh');
-			} elseif ($role == 6) {
-				redirect('akademik', 'refresh');
+				redirect('bagAkademik', 'refresh');
 			}
 		}
 
@@ -43,8 +38,7 @@ class Login extends CI_Controller {
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 
-			// $count = $this->m_login->count_user($username, password_hash(md5($password), PASSWORD_BCRYPT))->num_rows();
-			// $cek = $this->m_login->count_user($username, password_hash(md5($password), PASSWORD_BCRYPT))->result_array();
+			// check user
 			$count = $this->m_login->count_user($username, md5($password))->num_rows();
 			$cek = $this->m_login->count_user($username, md5($password))->result_array();
 			$tahun = $this->m_login->tahun_ajaran();
@@ -74,16 +68,11 @@ class Login extends CI_Controller {
 
 			if ($count == 1) {
 				$role = $cek[0]['role'];
-				$kdprodi = $cek[0]['kode_prodi'];
 				$user_login = array (
 						'login_in' => TRUE,
 						'username' => $username,
 						'pass' => $password,
 						'role' => $role,
-						'kode_prodi' => $kdprodi,
-						'mhs_profil' => FALSE,
-						'mhs_ortu' => FALSE,
-						'mhs_upload' => FALSE,
 						'tahun_ajaran' => $tahun[0]['tahun_ajaran']);
 
 				$data = array(
@@ -101,13 +90,9 @@ class Login extends CI_Controller {
 				} elseif ($role == 2) {
 					redirect('dosen', 'refresh');
 				} elseif ($role == 3) {
-					redirect('operator', 'refresh');
+					redirect('bagKeuangan', 'refresh');
 				} elseif ($role == 4) {
-					redirect('pimpinan', 'refresh');
-				} elseif ($role == 5) {
-					redirect('keuangan', 'refresh');
-				} elseif ($role == 6) {
-					redirect('akademik', 'refresh');
+					redirect('bagAkademik', 'refresh');
 				}
 
 			} else {
@@ -117,7 +102,7 @@ class Login extends CI_Controller {
 
 			}
 		}
-	*/
+	
 	}
 	
 	// function do_login()

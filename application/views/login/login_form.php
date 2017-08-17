@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sistem Informasi Akademik</title>
+  <title>Sistem Informasi Akademik | Fakultas Hukum Universitas Suryakancana</title>
+  <!-- FAVICON -->
+  <link rel="icon" href="<?=base_url()?>assets/img/logo_fh.png" type="image/gif">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -51,7 +53,7 @@
         <input type="password" class="form-control" placeholder="Password" name="password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <div class="form-group has-feedback">
+      <!-- <div class="form-group has-feedback">
         <select class="form-control" placeholder="Role" name="role" required>
           <option>---</option>
           <option>Mahasiswa</option>
@@ -59,7 +61,7 @@
           <option>Keuangan</option>
           <option>Akademik</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col-xs-8">

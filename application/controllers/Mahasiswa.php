@@ -6,8 +6,8 @@ class Mahasiswa extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		// $this->load->model('m_mahasiswa');
-		// $this->load->library('upload');	
+		$this->load->model('m_mahasiswa');
+		$this->load->library('upload');	
 	}
 
 	// function configImage($url)
@@ -51,65 +51,33 @@ class Mahasiswa extends CI_Controller {
 		// $this->check_pembayaran();
 		// $data['pembayaran'] = $this->pembayaran;
 
-		// $session = $this->session->userdata('login_in');
+		$session = $this->session->userdata('login_in');
 
-		// if ($session == TRUE  && $this->session->role == 1) {
-		// 	$this->load->view('header', $data);
-		// 	$this->load->view('sidenav', $data);
-		// 	$this->load->view($url, $data);
-		// 	$this->load->view('footer');
-		// } else {
-		// 	redirect('login', 'refresh');
-		// }
+		if ($session == TRUE  && $this->session->role == 1) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view($url, $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
 
-		$this->load->view('header', $data);
-		$this->load->view('sidenav', $data);
-		$this->load->view($url, $data);
-		$this->load->view('footer');
 	}
 
 	function index()
 	{
-		// $user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
-		// $user_profil = $this->m_mahasiswa->getDataUser('mhs_profil', array('nim' => $this->session->username));
-		// $user_ortu = $this->m_mahasiswa->getDataUser('mhs_orangtua', array('nim' => $this->session->username));
-		// $user_upload = $this->m_mahasiswa->getDataUser('mhs_upload', array('nim' => $this->session->username));
-		// $pengumuman = $this->m_mahasiswa->getAllDataOrder('pengumuman', array('role' => $this->session->role, 'status' => 1), array('created', 'DESC'));
-		// $this->session->set_userdata('kelas', $user_akun['kelas']);
+		// get data user
+		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
 
 
-		// $data['user'] = $user_akun;
-		// $data['profil'] = $user_profil;
-		// $data['ortu'] = $user_ortu;
-		// $data['upload'] = $user_upload;
-
+		$data['user'] = $user_akun[0];
 		// $data['role'] = $this->session->role;
-		// $data['pengumuman'] = $pengumuman;
 
-		// if (!empty($user_profil)) {
-		// 	$this->session->set_userdata('mhs_profil', TRUE);
-		// } else {
-		// 	$this->session->set_userdata('mhs_profil', FALSE);
-		// }
-
-		// if (!empty($user_ortu)) {
-		// 	$this->session->set_userdata('mhs_ortu', TRUE);
-		// } else {
-		// 	$this->session->set_userdata('mhs_ortu', FALSE);
-		// }
-
-		// if (($user_upload['pas_photo'] == null) || ($user_upload['ijazah'] == null)) {
-		// 	$this->session->set_userdata('mhs_upload', FALSE);
-		// } else {
-		// 	$this->session->set_userdata('mhs_upload', TRUE);
-		// }
-
-
-		//$this->set_view('mahasiswa/home', null);	
-		$this->load->view('header');
-		$this->load->view('sidenav');
-		$this->load->view('mahasiswa/home');
-		$this->load->view('footer');
+		// funtion view
+		$this->set_view('mahasiswa/home', $data);	
 	}
 
 

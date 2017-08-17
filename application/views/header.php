@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SIMAAK</title>
+  <title>Sistem Informasi Akademik | Fakultas Hukum Universitas Suryakancana</title>
   <!-- FAVICON -->
-  <link rel="icon" href="<?=base_url('assets/img')?>/favicon.gif" type="image/gif">
+  <link rel="icon" href="<?=base_url()?>assets/img/logo_fh.png" type="image/gif">
   
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -52,9 +52,9 @@
     <!-- Logo -->
     <a href="<?=base_url()?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>SI.</b>A</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">SIMAAK</span>
+      <span class="logo-lg">SI.Akademik</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -71,7 +71,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?=base_url('assets/uploads/profiles/default_male.jpg')?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Ujang Asep</span>
+              <span class="hidden-xs"><?=$user['nama']?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -79,32 +79,15 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?=$user['nama']?>
+                  <small>Angkatan <?=$user['angkatan']?></small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <div class="text-center">
+                  <a href="<?=base_url()?>login/logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>

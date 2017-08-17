@@ -1,0 +1,434 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.12
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Aug 17, 2017 at 07:24 PM
+-- Server version: 5.6.25
+-- PHP Version: 5.6.11
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `fh_unsur`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dosen`
+--
+
+CREATE TABLE IF NOT EXISTS `dosen` (
+  `nidn` char(10) NOT NULL,
+  `nik` char(10) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `gelar_depan` char(10) NOT NULL,
+  `gelar_belakang` char(10) NOT NULL,
+  `jenis_kelamin` char(1) NOT NULL,
+  `tgl_lahir` date NOT NULL,
+  `tempat_lahir` char(20) NOT NULL,
+  `jabatan_fungsional` varchar(25) NOT NULL,
+  `golongan` char(10) NOT NULL,
+  `jabatan_struktural` varchar(50) NOT NULL,
+  `no_hp` char(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `frs`
+--
+
+CREATE TABLE IF NOT EXISTS `frs` (
+  `id` int(11) NOT NULL,
+  `nim` char(15) DEFAULT NULL,
+  `id_jadwal` int(5) unsigned zerofill DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `golongan`
+--
+
+CREATE TABLE IF NOT EXISTS `golongan` (
+  `id` int(2) NOT NULL,
+  `jabatan_fungsional` varchar(25) DEFAULT NULL,
+  `pangkat` varchar(25) DEFAULT NULL,
+  `golongan` char(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jabatan_fungsional`
+--
+
+CREATE TABLE IF NOT EXISTS `jabatan_fungsional` (
+  `id` int(1) NOT NULL,
+  `jabatan_fungsional` varchar(25) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jabatan_fungsional`
+--
+
+INSERT INTO `jabatan_fungsional` (`id`, `jabatan_fungsional`) VALUES
+(1, 'Asisten Ahli'),
+(4, 'Guru Besar'),
+(2, 'Lektor'),
+(3, 'Lektor Kepala');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal`
+--
+
+CREATE TABLE IF NOT EXISTS `jadwal` (
+  `id_jadwal` int(5) unsigned zerofill NOT NULL,
+  `kode_matkul` char(5) DEFAULT NULL,
+  `nidn` char(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE IF NOT EXISTS `login` (
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `role` int(1) DEFAULT NULL,
+  `status` int(1) DEFAULT '1',
+  `last_login` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `device` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`username`, `password`, `role`, `status`, `last_login`, `device`) VALUES
+('7420116045', '202cb962ac59075b964b07152d234b70', 1, 1, '2017-08-17 17:20:22', 'Mac OS X, Chrome 60.0.3112.90');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mahasiswa`
+--
+
+CREATE TABLE IF NOT EXISTS `mahasiswa` (
+  `npm` char(15) NOT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `angkatan` year(4) NOT NULL,
+  `kelas` char(1) NOT NULL,
+  `program_kekhususan` varchar(25) DEFAULT NULL,
+  `jenis_kelamin` char(1) NOT NULL,
+  `tempat_lahir` varchar(25) NOT NULL,
+  `tanggal_lahir` date NOT NULL,
+  `alamat` text NOT NULL,
+  `no_tlp` char(15) NOT NULL,
+  `email` char(50) NOT NULL,
+  `status_tempat_tinggal` varchar(25) DEFAULT NULL,
+  `nidn` char(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`npm`, `nama`, `angkatan`, `kelas`, `program_kekhususan`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `no_tlp`, `email`, `status_tempat_tinggal`, `nidn`) VALUES
+('7420116045', 'Muhamad Taufik Akbar', 2016, 'B', 'Hukum Pidana', 'L', '', '0000-00-00', '', '', '', 'Rumah Orang Tua', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `matakuliah`
+--
+
+CREATE TABLE IF NOT EXISTS `matakuliah` (
+  `kode_matkul` char(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `program_kekhususan`
+--
+
+CREATE TABLE IF NOT EXISTS `program_kekhususan` (
+  `id` int(1) NOT NULL,
+  `program_kekhususan` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `program_kekhususan`
+--
+
+INSERT INTO `program_kekhususan` (`id`, `program_kekhususan`) VALUES
+(1, 'Hukum Keperdataan'),
+(2, 'Hukum Pidana'),
+(3, 'Hukum Tata Negara');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `registrasi`
+--
+
+CREATE TABLE IF NOT EXISTS `registrasi` (
+  `id_registrasi` int(5) unsigned zerofill NOT NULL,
+  `nim` char(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE IF NOT EXISTS `role` (
+  `role` int(1) NOT NULL,
+  `keterangan` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`role`, `keterangan`) VALUES
+(0, 'Admin'),
+(1, 'Mahasiswa'),
+(2, 'Dosen'),
+(3, 'Bagian Keuangan'),
+(4, 'Bagian Akademik');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stt_tempat_tinggal`
+--
+
+CREATE TABLE IF NOT EXISTS `stt_tempat_tinggal` (
+  `id` int(1) NOT NULL,
+  `status_tempat_tinggal` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stt_tempat_tinggal`
+--
+
+INSERT INTO `stt_tempat_tinggal` (`id`, `status_tempat_tinggal`) VALUES
+(4, 'Asrama'),
+(2, 'Kontrakan'),
+(1, 'Rumah Orang Tua'),
+(3, 'Rumah Sendiri');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tahun_ajaran`
+--
+
+CREATE TABLE IF NOT EXISTS `tahun_ajaran` (
+  `id` int(2) NOT NULL,
+  `tahun_ajaran` int(5) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tahun_ajaran`
+--
+
+INSERT INTO `tahun_ajaran` (`id`, `tahun_ajaran`) VALUES
+(1, 20171);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dosen`
+--
+ALTER TABLE `dosen`
+  ADD PRIMARY KEY (`nidn`),
+  ADD KEY `jabatan_fungsional` (`jabatan_fungsional`);
+
+--
+-- Indexes for table `frs`
+--
+ALTER TABLE `frs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `nim` (`nim`),
+  ADD KEY `id_jadwal` (`id_jadwal`) USING BTREE;
+
+--
+-- Indexes for table `golongan`
+--
+ALTER TABLE `golongan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jabatan_fungsional` (`jabatan_fungsional`);
+
+--
+-- Indexes for table `jabatan_fungsional`
+--
+ALTER TABLE `jabatan_fungsional`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jabatan_fungsional` (`jabatan_fungsional`);
+
+--
+-- Indexes for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  ADD PRIMARY KEY (`id_jadwal`),
+  ADD KEY `kode_matkul` (`kode_matkul`),
+  ADD KEY `nidn` (`nidn`);
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`username`),
+  ADD KEY `role` (`role`);
+
+--
+-- Indexes for table `mahasiswa`
+--
+ALTER TABLE `mahasiswa`
+  ADD PRIMARY KEY (`npm`),
+  ADD KEY `nidn` (`nidn`),
+  ADD KEY `program_kekhususan` (`program_kekhususan`),
+  ADD KEY `status_tempat_tinggal` (`status_tempat_tinggal`);
+
+--
+-- Indexes for table `matakuliah`
+--
+ALTER TABLE `matakuliah`
+  ADD PRIMARY KEY (`kode_matkul`);
+
+--
+-- Indexes for table `program_kekhususan`
+--
+ALTER TABLE `program_kekhususan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `program_kekhususan` (`program_kekhususan`);
+
+--
+-- Indexes for table `registrasi`
+--
+ALTER TABLE `registrasi`
+  ADD PRIMARY KEY (`id_registrasi`),
+  ADD KEY `nim` (`nim`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`role`);
+
+--
+-- Indexes for table `stt_tempat_tinggal`
+--
+ALTER TABLE `stt_tempat_tinggal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `status_tempat_tinggal` (`status_tempat_tinggal`);
+
+--
+-- Indexes for table `tahun_ajaran`
+--
+ALTER TABLE `tahun_ajaran`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `frs`
+--
+ALTER TABLE `frs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `jabatan_fungsional`
+--
+ALTER TABLE `jabatan_fungsional`
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  MODIFY `id_jadwal` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `registrasi`
+--
+ALTER TABLE `registrasi`
+  MODIFY `id_registrasi` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tahun_ajaran`
+--
+ALTER TABLE `tahun_ajaran`
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `dosen`
+--
+ALTER TABLE `dosen`
+  ADD CONSTRAINT `dosen_ibfk_1` FOREIGN KEY (`jabatan_fungsional`) REFERENCES `jabatan_fungsional` (`jabatan_fungsional`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `frs`
+--
+ALTER TABLE `frs`
+  ADD CONSTRAINT `frs_ibfk_1` FOREIGN KEY (`nim`) REFERENCES `mahasiswa` (`npm`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `golongan`
+--
+ALTER TABLE `golongan`
+  ADD CONSTRAINT `golongan_ibfk_1` FOREIGN KEY (`jabatan_fungsional`) REFERENCES `jabatan_fungsional` (`jabatan_fungsional`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  ADD CONSTRAINT `jadwal_ibfk_1` FOREIGN KEY (`kode_matkul`) REFERENCES `matakuliah` (`kode_matkul`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `jadwal_ibfk_2` FOREIGN KEY (`nidn`) REFERENCES `dosen` (`nidn`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `jadwal_ibfk_3` FOREIGN KEY (`id_jadwal`) REFERENCES `frs` (`id_jadwal`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `login`
+--
+ALTER TABLE `login`
+  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`role`) REFERENCES `role` (`role`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `mahasiswa`
+--
+ALTER TABLE `mahasiswa`
+  ADD CONSTRAINT `mahasiswa_ibfk_1` FOREIGN KEY (`nidn`) REFERENCES `dosen` (`nidn`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `mahasiswa_ibfk_2` FOREIGN KEY (`program_kekhususan`) REFERENCES `program_kekhususan` (`program_kekhususan`),
+  ADD CONSTRAINT `mahasiswa_ibfk_3` FOREIGN KEY (`status_tempat_tinggal`) REFERENCES `stt_tempat_tinggal` (`status_tempat_tinggal`);
+
+--
+-- Constraints for table `registrasi`
+--
+ALTER TABLE `registrasi`
+  ADD CONSTRAINT `registrasi_ibfk_1` FOREIGN KEY (`nim`) REFERENCES `mahasiswa` (`npm`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
