@@ -26,9 +26,9 @@ class Login extends CI_Controller {
 			} elseif ($role == 2) {
 				redirect('dosen', 'refresh');
 			} elseif ($role == 3) {
-				redirect('bagKeuangan', 'refresh');
+				redirect('baa', 'refresh');
 			} elseif ($role == 4) {
-				redirect('bagAkademik', 'refresh');
+				redirect('bak', 'refresh');
 			}
 		}
 
@@ -90,9 +90,9 @@ class Login extends CI_Controller {
 				} elseif ($role == 2) {
 					redirect('dosen', 'refresh');
 				} elseif ($role == 3) {
-					redirect('bagKeuangan', 'refresh');
+					redirect('baa', 'refresh');
 				} elseif ($role == 4) {
-					redirect('bagAkademik', 'refresh');
+					redirect('bak', 'refresh');
 				}
 
 			} else {

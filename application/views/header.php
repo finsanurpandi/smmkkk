@@ -37,12 +37,18 @@
   <link rel="stylesheet" href="<?=base_url()?>assets/css/custom.css">
   <!-- SELECT 2 -->
   <link rel="stylesheet" href="<?=base_url()?>assets/css/select2.min.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/plugins/datatables/dataTables.bootstrap.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+  <!-- jQuery 2.2.3 -->
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -52,7 +58,7 @@
     <!-- Logo -->
     <a href="<?=base_url()?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>SI.</b>A</span>
+      <span class="logo-mini"><b>SI.</b>AK</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">SI.Akademik</span>
     </a>
@@ -80,7 +86,11 @@
 
                 <p>
                   <?=$user['nama']?>
+<?php
+  if ($this->session->role == 1) {
+?>
                   <small>Angkatan <?=$user['angkatan']?></small>
+<?php } ?>
                 </p>
               </li>
               

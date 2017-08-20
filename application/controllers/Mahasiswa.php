@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller {
+	public $krs = FALSE;
 
 	function __construct()
 	{
@@ -48,8 +49,6 @@ class Mahasiswa extends CI_Controller {
 
 	function set_view($url, $data=null)
 	{
-		// $this->check_pembayaran();
-		// $data['pembayaran'] = $this->pembayaran;
 
 		$session = $this->session->userdata('login_in');
 
@@ -64,6 +63,17 @@ class Mahasiswa extends CI_Controller {
 
 	}
 
+	function check_pembayaran()
+	{
+		$pembayaran = $this->m_mahasiswa->getAllData('mhs_pembayaran', array('npm' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran), array('id' => 'ASC'));
+		
+		$validasi = $pembayaran->result_array();
+
+		if ($pembayaran->num_rows() !== 0 && $validasi[0]['status'] == 1) {
+			$this->krs = TRUE;
+		}
+	}
+
 	function index()
 	{
 		// get data user
@@ -72,9 +82,12 @@ class Mahasiswa extends CI_Controller {
 		// set user 'kelas'
 		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
 
+		//check pembayaran
+		$this->check_pembayaran();
 
+		// DATA
 		$data['user'] = $user_akun[0];
-		// $data['role'] = $this->session->role;
+		$data['krs'] = $this->krs;
 
 		// funtion view
 		$this->set_view('mahasiswa/home', $data);	

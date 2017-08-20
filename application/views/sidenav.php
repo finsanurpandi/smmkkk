@@ -38,18 +38,38 @@
             <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           </ul>
         </li> -->
+<?php
+  if ($this->session->role == 0) { // ROLE ADMIN
+?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
           </a>
         </li>
+<?php
+  } elseif ($this->session->role == 1) { // ROLE MAHASISWA
+?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Profil</span>
+          </a>
+        </li>
+
+        <?php
+          if ($krs == TRUE) {
+        ?>
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Perwalian</span>
           </a>
         </li>
+
+        <?php } ?>
+        
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
@@ -74,6 +94,47 @@
             <span>Administrasi</span>
           </a>
         </li>
+
+<?php
+  } elseif ($this->session->role == 2) { // ROLE DOSEN
+?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Profil</span>
+          </a>
+        </li>
+
+<?php
+  } elseif ($this->session->role == 3) { // ROLE BAGIAN KEUANGAN
+?>
+      
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Profil</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="<?=base_url()?>baa/registrasi">
+            <i class="fa fa-files-o"></i>
+            <span>Registrasi</span>
+          </a>
+        </li>
+
+<?php
+  } elseif ($this->session->role == 4) { // ROLE BAGIAN AKADEMIK
+?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Profil</span>
+          </a>
+        </li>
+
+<?php
+  }
+?>
       </ul>
     </section>
     <!-- /.sidebar -->

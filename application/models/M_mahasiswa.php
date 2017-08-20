@@ -21,7 +21,7 @@ class M_mahasiswa extends CI_Model {
 		} 
 
 		if ($order !== null) {
-			foreach ($orderby as $key => $value) {
+			foreach ($order as $key => $value) {
 				$this->db->order_by($key, $value);
 			}
 		}
