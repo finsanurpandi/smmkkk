@@ -31,6 +31,26 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getAllDataOr($table, $where = null, $order = null)
+	{
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->or_where($key, $value);
+			}
+		} 
+
+		if ($order !== null) {
+			foreach ($order as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		}
+		
+		$this->db->where('tahun_ajaran', $this->session->tahun_ajaran);
+		$query = $this->db->get($table);
+		
+		return $query;
+	}
+
 	function getNumRows($table, $where = null)
 	{
 		if ($where !== null) {

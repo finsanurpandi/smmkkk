@@ -49,6 +49,16 @@
 <script src="<?=base_url('assets/plugins')?>/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/plugins')?>/fastclick/fastclick.js"></script>
+<!-- jQuery Knob -->
+<script src="<?=base_url('assets/plugins')?>/knob/jquery.knob.js"></script>
+<!-- FLOT CHARTS -->
+<script src="<?=base_url('assets/plugins')?>/flot/jquery.flot.min.js"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="<?=base_url('assets/plugins')?>/flot/jquery.flot.resize.min.js"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="<?=base_url('assets/plugins')?>/flot/jquery.flot.pie.min.js"></script>
+<!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+<script src="<?=base_url('assets/plugins')?>/flot/jquery.flot.categories.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url()?>assets/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
@@ -58,35 +68,6 @@
 <script src="<?=base_url()?>assets/js/custom.js"></script>
 <!-- select2 -->
 <script src="<?=base_url()?>assets/js/select2.full.min.js"></script>
-<script>
-  $(function () {
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-    
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-    );
-
-   })
-
-</script>
 </body>
 </html>

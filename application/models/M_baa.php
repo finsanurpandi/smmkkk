@@ -74,6 +74,14 @@ class M_baa extends CI_Model {
 		return $query;
 	}
 
+	function getRegistrasi(){
+		$sql = "SELECT tbl2.id, tbl1.npm, tbl1.nama, tbl1.angkatan, tbl2.tahun_ajaran, tbl2.jumlah, tbl2.tgl_pembayaran, tbl2.tgl_validasi FROM mahasiswa tbl1 INNER JOIN (SELECT a.* FROM mhs_pembayaran a INNER JOIN (SELECT id, npm, MIN(id) AS min_id FROM mhs_pembayaran GROUP BY npm) b ON a.npm=b.npm WHERE b.min_id=a.id) tbl2 ON tbl1.npm=tbl2.npm";
+
+		$query = $this->db->query($sql);
+
+		return $query->result_array();
+	}
+
 // INSERT DATA
 
 	function insertData($table, $data)

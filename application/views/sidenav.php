@@ -5,11 +5,11 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?=base_url('assets/uploads/profiles/default_male.jpg')?>" class="img-circle" alt="User Image">
+          <img src="<?=base_url('assets/img/logo_fh.png')?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?=$user['nama']?></p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <p>Fakultas Hukum</p>
+          <p>Universitas Suryakancana</p>
         </div>
       </div>
       <!-- search form -->
@@ -42,7 +42,7 @@
   if ($this->session->role == 0) { // ROLE ADMIN
 ?>
         <li class="treeview">
-          <a href="#">
+          <a href="<?=base_url()?>mahasiswa/profil">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
           </a>
@@ -51,8 +51,8 @@
   } elseif ($this->session->role == 1) { // ROLE MAHASISWA
 ?>
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
+          <a href="<?=base_url()?>mahasiswa/profil">
+            <i class="fa fa-user"></i>
             <span>Profil</span>
           </a>
         </li>
@@ -62,8 +62,8 @@
         ?>
 
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
+          <a href="<?=base_url()?>mahasiswa/krs">
+            <i class="fa fa-send"></i>
             <span>Perwalian</span>
           </a>
         </li>
@@ -71,8 +71,8 @@
         <?php } ?>
         
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
+          <a href="<?=base_url()?>mahasiswa/perkuliahan">
+            <i class="fa fa-mortar-board"></i>
             <span>Perkuliahan</span>
           </a>
         </li>
@@ -89,7 +89,7 @@
           </ul>
         </li>
         <li class="treeview">
-          <a href="#">
+          <a href="<?=base_url()?>mahasiswa/administrasi">
             <i class="fa fa-files-o"></i>
             <span>Administrasi</span>
           </a>
@@ -109,16 +109,28 @@
   } elseif ($this->session->role == 3) { // ROLE BAGIAN KEUANGAN
 ?>
       
-        <li class="treeview">
-          <a href="#">
+        <li id="baadashboard">
+          <a href="<?=base_url()?>baa/">
+            <i class="fa fa-files-o"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li id="baaprofil">
+          <a href="<?=base_url()?>baa/profil">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
           </a>
         </li>
-        <li class="treeview">
+        <li id="baaregister">
           <a href="<?=base_url()?>baa/registrasi">
             <i class="fa fa-files-o"></i>
             <span>Registrasi</span>
+          </a>
+        </li>
+        <li id="baapembayaran">
+          <a href="<?=base_url()?>baa/pembayaran">
+            <i class="fa fa-files-o"></i>
+            <span>Pembayaran Mahasiswa</span>
           </a>
         </li>
 
@@ -139,3 +151,8 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+
+<script type="text/javascript">
+  var role = '<?=$this->session->role?>';
+  var uri = '<?=$this->uri->segment(2)?>';
+</script>

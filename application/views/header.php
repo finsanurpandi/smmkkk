@@ -76,13 +76,38 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?=base_url('assets/uploads/profiles/default_male.jpg')?>" class="user-image" alt="User Image">
+              <?php
+                  if ($user['image'] == null) {
+                    if ($user['jenis_kelamin'] == 'L') {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='user-image' alt='User Image'>";
+                    } else {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='user-image' alt='User Image'>";
+                    };
+                  } else {
+                  ?>
+                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="user-image" alt="User Image">
+                  <?php
+                  } 
+                 ?>
               <span class="hidden-xs"><?=$user['nama']?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
+                <?php
+                  if ($user['image'] == null) {
+                    if ($user['jenis_kelamin'] == 'L') {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                    } else {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                    };
+                  } else {
+                  ?>
+                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
+                  <?php
+                  } 
+                 ?>
 
                 <p>
                   <?=$user['nama']?>
@@ -96,8 +121,11 @@
               
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="text-center">
-                  <a href="<?=base_url()?>login/logout" class="btn btn-default btn-flat">Sign out</a>
+                <div class="pull-left">
+                  <a href="<?=base_url()?><?=$this->uri->segment(1);?>/editdata" class="btn btn-default btn-flat btn-sm">Edit Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="<?=base_url()?>login/logout" class="btn btn-default btn-flat btn-sm">Sign out</a>
                 </div>
               </li>
             </ul>
