@@ -138,7 +138,7 @@ $total += $value['jumlah'];
       <?=$mhs['kelas']?>
     </p>
 
-<a href="<?=base_url()?>baa/pembayaran" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> kembali</a>
+<a href="<?=base_url()?>bak/pembayaran" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> kembali</a>
 <!-- END OF CONTENT -->
 
             <!-- /.box-body -->

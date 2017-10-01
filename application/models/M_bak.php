@@ -1,0 +1,121 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class M_bak extends CI_Model {
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->mhs = 'mahasiswa';
+		$this->account = 'login';
+	}
+
+// GET DATA
+
+	function getAllData($table, $where = null, $order = null)
+	{
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
+		} 
+
+		if ($order !== null) {
+			foreach ($order as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		}
+		
+		$query = $this->db->get($table);
+		
+		return $query;
+	}
+
+	function getNumRows($table, $where = null)
+	{
+		if ($where !== null) {
+			$query = $this->db->get_where($table, $where);
+		} else {
+			$query = $this->db->get($table);
+		}
+
+		return $query->num_rows();
+	}
+
+	function getDistinctData($table, $row)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		$query = $this->db->get($table);
+
+		return $query;
+	}
+
+	function getDistinctDataOrder($table, $where = null, $row, $order)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
+		}
+
+		foreach ($order as $key => $value) {
+			$this->db->order_by($key, $value);
+		}
+
+		$query = $this->db->get($table);
+
+		return $query;
+	}
+
+	function getRegistrasi(){
+		$sql = "SELECT tbl2.id, tbl1.npm, tbl1.nama, tbl1.angkatan, tbl2.tahun_ajaran, tbl2.jumlah, tbl2.tgl_pembayaran, tbl2.tgl_validasi FROM mahasiswa tbl1 INNER JOIN (SELECT a.* FROM mhs_pembayaran a INNER JOIN (SELECT id, npm, MIN(id) AS min_id FROM mhs_pembayaran GROUP BY npm) b ON a.npm=b.npm WHERE b.min_id=a.id) tbl2 ON tbl1.npm=tbl2.npm";
+
+		$query = $this->db->query($sql);
+
+		return $query->result_array();
+	}
+
+// INSERT DATA
+
+	function insertData($table, $data)
+	{
+		$this->db->insert($table, $data);
+	}
+
+	function insertAllData($table, $data)
+	{
+		$this->db->insert_batch($table, $data);
+	}
+
+	function insertMultiple($table1, $data1, $table2, $data2)
+	{
+		$this->db->trans_start();
+		$this->db->insert_batch($table1, $data1);
+		$this->db->insert($table2, $data2);
+		$this->db->trans_complete();
+	}
+
+// UPDATE DATA
+
+	function updateData($table, $data, $where){
+		$this->db->where($where);
+		$this->db->update($table, $data);
+	}
+
+	function updateMultipleData($data1, $data2, $where)
+	{
+		$this->db->trans_start();
+		$this->db->where($where);
+		$this->db->update('mhs_profil', $data1);
+		$this->db->where($where);
+		$this->db->update('mhs', $data2);
+		$this->db->trans_complete();
+	}
+}

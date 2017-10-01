@@ -16,11 +16,11 @@ class Baa extends CI_Controller {
 
 		$session = $this->session->userdata('login_in');
 
-		if ($session == TRUE  && $this->session->role == 3) {
+		if ($session == TRUE  && $this->session->role == 4) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view($url, $data);
-			$this->load->view('baa/modal', $data);
+			//$this->load->view('admin/modal', $data);
 			$this->load->view('footer');
 		} else {
 			redirect('login', 'refresh');
@@ -34,22 +34,11 @@ class Baa extends CI_Controller {
 		// get data user
 		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
 
-		// get data registrasi
-		$jml_mhs = $this->m_baa->getAllData('mahasiswa', array('status' => 1))->num_rows();
-		$jml_register = $this->m_baa->getAllData('mhs_pembayaran', array('tahun_ajaran' => $this->session->tahun_ajaran, 'keterangan' => 0))->num_rows();
-		$persentase = round(($jml_register*100)/$jml_mhs, 2);
-
-		// $jml_unregister = $jml_mhs - $jml_register;
-
 		// DATA
 		$data['user'] = $user_akun[0];
-		$data['persentase'] = $persentase;
-		$data['mhs_aktif'] = $jml_mhs;
-		$data['mhs_register'] = $jml_register;
-		$data['mhs_unregister'] = $jml_mhs - $jml_register;
 
-		// function view
-		$this->set_view('baa/dashboard', $data);	
+		// funtion view
+		$this->set_view('baa/home', $data);	
 	}
 
 	function profil()
@@ -64,130 +53,93 @@ class Baa extends CI_Controller {
 		$this->set_view('baa/profil', $data);	
 	}
 
-	function registrasi()
+	function perwalian()
 	{
 		// get data user
 		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
 
-		//get data pembayaran
-		$pembayaran = $this->m_baa->getAllData('v_mhs_pembayaran', array('tahun_ajaran' => $this->session->tahun_ajaran, 'keterangan' => 0), array('id' => 'ASC'));
-		// $pembayaran = $this->m_baa->getRegistrasi();
+		// get mahasiswa
+		$mahasiswa = $this->m_baa->getAllData('v_mhs_stt_perwalian', array('tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// DATA
 		$data['user'] = $user_akun[0];
-		$data['pembayaran'] = $pembayaran->result_array();
+		$data['mahasiswa'] = $mahasiswa;
 
 		// funtion view
-		$this->set_view('baa/registrasi', $data);	
-
-		$tambahRegistrasi = $this->input->post('tambahRegistrasi');
-
-		if (isset($tambahRegistrasi)) {
-			//set datetime
-			date_default_timezone_set("Asia/Bangkok");
-			$date = new DateTime();
-			$tgl_validasi = $date->format('Y-m-d H:i:s');
-
-			// SET TANGGAL PEMBAYARAN
-			if ($this->input->post('tanggal') == null) {
-				$tgl_pembayaran = $tgl_validasi;
-			} else {
-				$tgl = explode('/', $this->input->post('tanggal'));
-				$tgl_pembayaran = $tgl[2].'-'.$tgl[0].'-'.$tgl[1].' '.$this->input->post('waktu');
-			}
-
-			$data = array(
-				'npm' => $this->input->post('npm'),
-				'tahun_ajaran' => $this->session->tahun_ajaran,
-				'status' => 1,
-				'jumlah' => 500000,
-				'tgl_pembayaran' => $tgl_pembayaran,
-				'tgl_validasi' => $tgl_validasi,
-				'keterangan' => 0
-			);
-
-			$this->m_baa->insertData('mhs_pembayaran', $data);
-
-			$this->session->set_flashdata('success', true);
-
-			redirect($this->uri->uri_string());
-		}
-
-		
+		$this->set_view('baa/perwalian', $data);	
 	}
 
-	function pembayaran()
+	function detail_perwalian($npm,$nidn)
 	{
-		// get data user
-		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
-
-		// get data pembayaran
-		$pembayaran = $this->m_baa->getAllData('mahasiswa');
-
-		// DATA
-		$data['user'] = $user_akun[0];
-		$data['pembayaran'] = $pembayaran->result_array();
-
-		// funtion view
-		$this->set_view('baa/pembayaran', $data);
-
-		// ADD DATA PEMBAYARAN
-		$tambahPembayaran = $this->input->post('tambahPembayaran');
-
-		if (isset($tambahPembayaran)) {
-			//set datetime
-			date_default_timezone_set("Asia/Bangkok");
-			$date = new DateTime();
-			$tgl_validasi = $date->format('Y-m-d H:i:s');
-
-			// SET TANGGAL PEMBAYARAN
-			if ($this->input->post('tanggal') == null) {
-				$tgl_pembayaran = $tgl_validasi;
-			} else {
-				$tgl = explode('/', $this->input->post('tanggal'));
-				$tgl_pembayaran = $tgl[2].'-'.$tgl[0].'-'.$tgl[1].' '.$this->input->post('waktu');
-			}
-
-			$data = array(
-				'npm' => $this->input->post('npm'),
-				'tahun_ajaran' => $this->session->tahun_ajaran,
-				'status' => 1,
-				'jumlah' => $this->input->post('jumlah'),
-				'tgl_pembayaran' => $tgl_pembayaran,
-				'tgl_validasi' => $tgl_validasi,
-				'keterangan' => 1
-			);
-			
-			$this->m_baa->insertData('mhs_pembayaran', $data);
-
-			$this->session->set_flashdata('success', true);
-
-			redirect($this->uri->uri_string());
-		}
-	}
-
-	function detailpembayaran($npm)
-	{
+		// get npm
 		$npm = $this->encrypt->decode($npm);
 
+		// get ndn
+		$nidn = $this->encrypt->decode($nidn);
+
 		// get data user
 		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
 
-		// get data pembayaran
-		$pembayaran = $this->m_baa->getAllData('v_mhs_pembayaran', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran));
+		// get dosen wali
+		$dosen_wali = $this->m_baa->getAllData('dosen', array('nidn' => $nidn))->result_array();
 
-		// get data mahasiswa
-		$mhs = $this->m_baa->getAllData('mahasiswa', array('npm' => $npm))->result_array();
+		// get data mahasiswa perwalian
+		$mahasiswa = $this->m_baa->getAllData('mahasiswa', array('npm' => $npm))->result_array();
+
+		// get perwalian
+		$sttperwalian = $this->m_baa->getAllData('stt_perwalian', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// get data KRS
+		$data_krs = $this->m_baa->getAllData('v_mhs_perwalian', array('npm' => $npm))->result_array();
+
+		// get Chat
+		$chat = $this->m_baa->getAllData('chat', array('room' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// DATA
 		$data['user'] = $user_akun[0];
-		$data['mhs'] = $mhs[0];
-		$data['pembayaran'] = $pembayaran->result_array();
+		$data['mahasiswa'] = $mahasiswa[0];
+		//$data['krs'] = $this->krs;
+		$data['perwalian'] = $this->input->post();
+		$data['sttperwalian'] = $sttperwalian;
+		$data['kode_matkul'] = $this->input->post('kode_matkul');
+		$data['totalSks'] = $this->input->post('totalSks');
+		$data['matakuliah'] = $this->m_baa->getAllData('matakuliah')->result_array();
+		$data['dosen_wali'] = $dosen_wali[0];
+		$data['data_krs'] = $data_krs;
+		$data['chat'] = $chat;
 
-		// funtion view
-		$this->set_view('baa/detailpembayaran', $data);
+		$this->set_view('baa/detail_perwalian', $data);	
 
+		// sent chat
+		$sendChat = $this->input->post('kirimChat');
+
+		if (isset($sendChat)) {
+			$data = array('from' => $user_akun[0]['nidn'],
+							'room' => $npm,
+							'pesan' => $this->input->post('message'),
+							'tahun_ajaran' => $this->session->tahun_ajaran);
+
+			$this->m_baa->insertData('chat', $data);
+			redirect($this->uri->uri_string());
+		}
+
+		// validasi baa
+		$validasi = $this->input->post('v_baa');
+
+		if (isset($validasi)) {
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$tglvalidasi = $date->format('Y-m-d H:i:s');
+
+			$data = array('v_baa' => 1, 'tgl_v_baa' => $tglvalidasi);
+			$where = array('npm' => $npm);
+
+			$this->m_baa->updateData('stt_perwalian', $data, $where);
+			redirect($this->uri->uri_string());
+		}
 	}
+
+	
 
 
 }

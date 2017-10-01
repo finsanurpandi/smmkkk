@@ -48,6 +48,19 @@ class Ajax extends CI_Controller {
         echo $row;   
     }
 
+    public function checkNidn()
+    {
+        $username = $this->input->post('nidn');
+
+        $row = $this->m_baa->getAllData('dosen', array('nidn' => $username))->num_rows();
+
+        $nama = $this->m_baa->getAllData('dosen', array('nidn' => $username))->result_array();
+
+        echo $row.','.$nama[0]['nama'];
+        
+        echo $row;   
+    }
+
     public function getChat()
     {
         $username = $this->input->post('npm');

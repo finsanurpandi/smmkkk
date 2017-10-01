@@ -89,7 +89,22 @@
                   <?php
                   } 
                  ?>
-              <span class="hidden-xs"><?=$user['nama']?></span>
+              <span class="hidden-xs">
+
+              <?php
+              if ($this->session->role == 2) {
+                if ($user['gelar_depan'] == null) {
+                  echo $user['nama'].', '.$user['gelar_belakang'];
+                } else {
+                  echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                }
+              } else {
+                echo $user['nama'];
+              }
+              
+              ?>
+
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -110,7 +125,18 @@
                  ?>
 
                 <p>
-                  <?=$user['nama']?>
+                  <?php
+                  if ($this->session->role == 2) {
+                    if ($user['gelar_depan'] == null) {
+                      echo $user['nama'].', '.$user['gelar_belakang'];
+                    } else {
+                      echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                    }
+                  } else {
+                    echo $user['nama'];
+                  }
+                  
+                  ?>
 <?php
   if ($this->session->role == 1) {
 ?>

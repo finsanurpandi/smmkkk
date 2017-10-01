@@ -41,10 +41,22 @@
 <?php
   if ($this->session->role == 0) { // ROLE ADMIN
 ?>
-        <li class="treeview">
-          <a href="<?=base_url()?>mahasiswa/profil">
+        <li id="adminprofil" class="treeview">
+          <a href="<?=base_url()?>admin/profil">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
+          </a>
+        </li>
+        <li id="adminmhs" class="treeview">
+          <a href="<?=base_url()?>admin/mahasiswa">
+            <i class="fa fa-files-o"></i>
+            <span>Mahasiswa</span>
+          </a>
+        </li>
+        <li id="admindosen" class="treeview">
+          <a href="<?=base_url()?>admin/dosen">
+            <i class="fa fa-files-o"></i>
+            <span>Dosen</span>
           </a>
         </li>
 <?php
@@ -98,10 +110,16 @@
 <?php
   } elseif ($this->session->role == 2) { // ROLE DOSEN
 ?>
-        <li class="treeview">
-          <a href="#">
+        <li id="dosenprofil" class="treeview">
+          <a href="<?=base_url()?>dosen/profil">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
+          </a>
+        </li>
+        <li id="dosenperwalian" class="treeview">
+          <a href="<?=base_url()?>dosen/perwalian">
+            <i class="fa fa-files-o"></i>
+            <span>Perwalian</span>
           </a>
         </li>
 
@@ -109,26 +127,26 @@
   } elseif ($this->session->role == 3) { // ROLE BAGIAN KEUANGAN
 ?>
       
-        <li id="baadashboard">
-          <a href="<?=base_url()?>baa/">
+        <li id="bakdashboard">
+          <a href="<?=base_url()?>bak/">
             <i class="fa fa-files-o"></i>
             <span>Dashboard</span>
           </a>
         </li>
-        <li id="baaprofil">
-          <a href="<?=base_url()?>baa/profil">
+        <li id="bakprofil">
+          <a href="<?=base_url()?>bak/profil">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
           </a>
         </li>
-        <li id="baaregister">
-          <a href="<?=base_url()?>baa/registrasi">
+        <li id="bakregister">
+          <a href="<?=base_url()?>bak/registrasi">
             <i class="fa fa-files-o"></i>
             <span>Registrasi</span>
           </a>
         </li>
-        <li id="baapembayaran">
-          <a href="<?=base_url()?>baa/pembayaran">
+        <li id="bakpembayaran">
+          <a href="<?=base_url()?>bak/pembayaran">
             <i class="fa fa-files-o"></i>
             <span>Pembayaran Mahasiswa</span>
           </a>
@@ -141,6 +159,12 @@
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Profil</span>
+          </a>
+        </li>
+        <li id="baaperwalian" class="treeview">
+          <a href="<?=base_url()?>baa/perwalian">
+            <i class="fa fa-files-o"></i>
+            <span>Perwalian</span>
           </a>
         </li>
 

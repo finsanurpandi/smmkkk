@@ -24,7 +24,7 @@
             <div class="box-body box-profile">
             
 <!-- CONTENT SHOULD BE HERE ... -->
-<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#baaTambahPembayaran"><i class="fa fa-plus"></i> Tambah</button>
+<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#bakTambahPembayaran"><i class="fa fa-plus"></i> Tambah</button>
 
 <?php
   if (@$this->session->flashdata('success') == true) {
@@ -61,7 +61,7 @@ foreach ($pembayaran as $key => $value) {
                 <tr>
                   <td><?=$no?></td>
                   <td>
-                  <a href="<?=base_url()?>baa/detailpembayaran/<?=$this->encrypt->encode($value['npm'])?>">
+                  <a href="<?=base_url()?>bak/detailpembayaran/<?=$this->encrypt->encode($value['npm'])?>">
                   <?=$value['npm']?>
                   </a>
                   </td>
@@ -69,7 +69,7 @@ foreach ($pembayaran as $key => $value) {
                   <td><?=$value['angkatan']?></td>
                   <td>(100*jumlah_pembayaran)/total_pembayaran</td>
                   <td>
-                    <a class="btn btn-success btn-xs" href="<?=base_url()?>baa/detailpembayaran/<?=$this->encrypt->encode($value['npm'])?>">
+                    <a class="btn btn-success btn-xs" href="<?=base_url()?>bak/detailpembayaran/<?=$this->encrypt->encode($value['npm'])?>">
                       <i class="fa fa-eye"></i>
                     </a>
                   </td>

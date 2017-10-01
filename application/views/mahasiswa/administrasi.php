@@ -37,7 +37,6 @@
       <option value="<?=$value['tahun_ajaran']?>"><?=$value['tahun_ajaran']?></option>
 
 <?php } ?>
-      <option value="20172">20172</option>
 
     </select>
   </div>

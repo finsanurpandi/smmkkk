@@ -9,7 +9,7 @@ switch ($periode) {
     break;
 }
 
-$semester = ((substr($this->session->tahun_ajaran, 0,4)-$user['angkatan'])*2)+substr($this->session->tahun_ajaran, -1);
+$semester = ((substr($this->session->tahun_ajaran, 0,4)-$mahasiswa['angkatan'])*2)+substr($this->session->tahun_ajaran, -1);
 switch ($semester) {
   case 1:
     $sem = 'Satu';
@@ -57,7 +57,7 @@ switch ($semester) {
 
 
 
-switch ($user['program_kekhususan']) {
+switch ($mahasiswa['program_kekhususan']) {
   case 'Hukum Keperdataan':
     $pk = 1;
     break;
@@ -106,43 +106,26 @@ switch ($user['program_kekhususan']) {
       <tr>
         <th>NPM</th>
         <td>:</td>
-        <td><?=$user['npm']?></td>
+        <td><?=$mahasiswa['npm']?></td>
       </tr>
       <tr>
         <th>Nama</th>
         <td>:</td>
-        <td><?=$user['nama']?></td>
+        <td><?=$mahasiswa['nama']?></td>
       </tr>
       <tr>
         <th>Email</th>
         <td>:</td>
-        <td><?=$user['email']?></td>
+        <td><?=$mahasiswa['email']?></td>
       </tr>
       <tr>
         <th>Program Kekhususan</th>
         <td>:</td>
         <td>
-        
-<?php
-if ($semester == 7 && $user['program_kekhususan'] == null) {
-?>
-
-<form class="form-inline" method="post">
-  <div class="form-group">
-    <select name="programkekhususan" class="form-control" style="width:auto;">
-      <option value="Hukum Keperdataan">Hukum Keperdataan</option>
-      <option value="Hukum Pidana">Hukum Pidana</option>
-      <option value="Hukum Tata Negara">Hukum Tata Negara</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <input type="submit" class="form-control btn btn-primary btn-sm" value="Pilih" name="pilihPk">
-  </div>
-</form>
 
 <?php
-} elseif ($semester == 7 && $user['program_kekhususan'] !== null) {
-  echo $user['program_kekhususan'];  
+if ($mahasiswa == 7 && $mahasiswa['program_kekhususan'] !== null) {
+  echo $mahasiswa['program_kekhususan'];  
 } else {
   echo '-';
 }
@@ -156,10 +139,10 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
         <td>:</td>
         <td>
         <?php
-        if ($dosen_wali['gelar_depan'] == null) {
-          echo $dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
+        if ($user['gelar_depan'] == null) {
+          echo $user['nama'].', '.$user['gelar_belakang'];
         } else {
-          echo $dosen_wali['gelar_depan'].' '.$dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
+          echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
         }
         
         ?>
@@ -168,7 +151,7 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
       <tr>
         <th>NIK</th>
         <td>:</td>
-        <td><?=$dosen_wali['nik']?></td>
+        <td><?=$user['nik']?></td>
       </tr>
     </table>
 </div>
@@ -247,38 +230,28 @@ $totalSks = 0;
 
 ?>
 
+
 <strong>Status Validasi Dosen Wali</strong>
     <p class="text-muted">
       <?php
         if ($sttperwalian[0]['v_dosen'] == 0){
-          echo "<span class='label label-danger'><i class='fa fa-close'></i> Menunggu Validasi </span>";
+          echo "<span class='label label-warning'>Menunggu Validasi</span>";
         } else {
-          echo "<span class='label label-success'><i class='fa fa-check'></i> Sudah divalidasi - ".$sttperwalian[0]['tgl_v_dosen']."</span>";
+          echo "<span class='label label-success'>Sudah divalidasi</span>";
+          echo '<br/>'.$sttperwalian[0]['tgl_v_dosen'];
         }
       ?>
     </p>
 
-<strong>Status Validasi Bagian Akademik</strong>
-    <p class="text-muted">
-      <?php
-        if ($sttperwalian[0]['v_baa'] == 0){
-          echo "<span class='label label-danger'><i class='fa fa-close'></i> Menunggu Validasi </span>";
-        } else {
-          echo "<span class='label label-success'><i class='fa fa-check'></i> Sudah divalidasi - ".$sttperwalian[0]['tgl_v_baa']."</span>";
-        }
-      ?>
-    </p>
-
+<form method="post">
 <?php
-  if (($sttperwalian[0]['v_dosen'] == 0) || ($sttperwalian[0]['v_baa'] == 0)) {
+  if ($sttperwalian[0]['v_dosen'] == 0){
 ?>
-<a href="#" class="btn btn-primary btn-sm disabled"><i class="fa fa-print"></i> Cetak KRS</a>
-<?php
-  } else {
-?>
-<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Cetak KRS</a>
+<button class="btn btn-success btn-xs" name="v_dosen" onclick="return confirm('Apakah anda yakin akan memvalidasi perwalian mahasiswa tersebut?')"><i class="fa fa-check"></i> Validasi</button>
 <?php } ?>
-
+</form>
+<hr/>
+<a href="<?=base_url()?>dosen/perwalian" class="btn btn-primary btn-xs"><i class="fa fa-arrow-left"></i> Kembali</a>
 
 
   </div>
@@ -292,11 +265,11 @@ $totalSks = 0;
 <?php
 
   foreach ($chat as $key => $value) {
-    if ($value['from'] == $user['nidn']) {
-      echo "<tr class='success'><td><strong>Dosen Wali: </strong><br/>";
+    if ($value['from'] == $mahasiswa['nidn']) {
+      echo "<tr class='success'><td><strong>You: </strong><br/>";
       echo $value['pesan']."</td></tr>";
-    } elseif ($value['from'] == $user['npm']) {
-      echo "<tr class='warning'><td><strong>You: </strong><br/>";
+    } elseif ($value['from'] == $mahasiswa['npm']) {
+      echo "<tr class='warning'><td><strong>Mahasiswa: </strong><br/>";
       echo $value['pesan']."</td></tr>";
     } else {
       echo "<tr class='info'><td><strong>Bagian Akademik: </strong><br/>";
@@ -305,6 +278,8 @@ $totalSks = 0;
     
   }
 ?>
+
+
       </table>
       </div>
     </div>
