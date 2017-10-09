@@ -31,7 +31,8 @@ if (role == 3) {
 		};
 };
 
-// ADMIN
+
+// ADMIN -------------------------------------------------
 //SELECT JABFUNG
 function selectJabfung(){
 	$('#golonganAdmin option').remove();
@@ -87,8 +88,18 @@ function selectJabfung(){
   	}
 };  // END OF FUNCTION SELECT JABFUNG
 
+// BAA -----------------------------------------------------
+function selectMatkul()
+{
+	
+}
 
-// MAHASISWA
+
+
+// ---------------------------------------------------------
+
+
+// MAHASISWA -------------------------------------------------
 // activeTab('orangtua');
 
 

@@ -122,6 +122,13 @@
             <span>Perwalian</span>
           </a>
         </li>
+        <li id="dosenjadwal" class="treeview">
+          <a href="<?=base_url()?>dosen/jadwal">
+            <i class="fa fa-files-o"></i>
+            <span>Jadwal Matakuliah</span>
+          </a>
+        </li>
+
 
 <?php
   } elseif ($this->session->role == 3) { // ROLE BAGIAN KEUANGAN
@@ -165,6 +172,12 @@
           <a href="<?=base_url()?>baa/perwalian">
             <i class="fa fa-files-o"></i>
             <span>Perwalian</span>
+          </a>
+        </li>
+        <li id="baajadwal" class="treeview">
+          <a href="<?=base_url()?>baa/jadwal">
+            <i class="fa fa-files-o"></i>
+            <span>Jadwal Matakuliah</span>
           </a>
         </li>
 

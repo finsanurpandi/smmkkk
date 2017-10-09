@@ -21,63 +21,58 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Perwalian Mahasiswa</h3>
+              <h3 class="box-title">Jadwal Matakuliah</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
 
 <!-- CONTENT SHOULD BE HERE -->
+<?php
+  if (@$this->session->flashdata('success') == true) {
+?>
+    <div class="alert alert-success">Data berhasil ditambahkan!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <br/>
+    </div>
+
+<?php
+  }
+?>
+
+<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#baaTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
+
+<hr/>
 <div class="table-responsive">
 <table id="dosenwali" class="table table-hover">
 <thead>
   <tr>
     <th>No</th>
-    <th>NPM</th>
-    <th>Nama</th>
-    <th>Angkatan</th>
-    <th>Validasi BAA</th>
-    <th>Validasi Dosen Wali</th>
+    <th>Hari</th>
+    <th>Waktu</th>
+    <th>Kode - Matakuliah</th>
+    <th>SKS</th>
+    <th>Ruang</th>
+    <th>NIDN - Dosen</th>
     <th>Aksi</th>
   </tr>
 </thead>
 <tbody>
 <?php
   $no = 1;
-  foreach ($mahasiswa as $key => $value) {
+  foreach ($jadwal as $key => $value) {
 ?>
   <tr>
     <td><?=$no++?></td>
-    <td><?=$value['npm']?></td>
-    <td><?=$value['nama']?></td>
-    <td><?=$value['angkatan']?></td>
+    <td><?=$value['hari']?></td>
+    <td><?=date('H:i', strtotime($value['jam_mulai'])).'-'.date('H:i', strtotime($value['jam_selesai']))?></td>
+    <td><?=$value['kode_matkul'].' - '.$value['nama_matkul']?></td>
+    <td><?=$value['sks']?></td>
+    <td><?=$value['ruangan']?></td>
+    <td><?=$value['nidn'].' - '.$value['nama_dosen']?></td>
     <td>
-      <?php
-      switch ($value['v_baa']) {
-      	case 1:
-      		echo "<span class='label label-success'>Disetujui</span>";
-      		break;
-      	
-      	default:
-      		echo "<span class='label label-danger'>Menunggu</span>";
-      		break;
-      }
-      ?>
-    </td>
-    <td>
-      <?php
-      switch ($value['v_dosen']) {
-      	case 1:
-      		echo "<span class='label label-success'>Disetujui</span>";
-      		break;
-      	
-      	default:
-      		echo "<span class='label label-danger'>Menunggu</span>";
-      		break;
-      }
-      ?>
-    </td>
-    <td>
-      <a href="<?=base_url()?>baa/detail_perwalian/<?=$this->encrypt->encode($value['npm'])?>/<?=$this->encrypt->encode($value['nidn'])?>" class="btn btn-primary btn-xs"><i class="fa fa-search"></i> detail</a>
+      
     </td>
   </tr>
 

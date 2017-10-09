@@ -202,6 +202,9 @@ class Mahasiswa extends CI_Controller {
 
 	function krs()
 	{
+		// set session krs
+		$this->session->set_userdata('krs', '0');
+
 		// get data user
 		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
 		
@@ -311,7 +314,7 @@ class Mahasiswa extends CI_Controller {
 		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
 
 		// get data KRS
-		$data_krs = $this->m_mahasiswa->getAllData('v_mhs_perwalian', array('npm' => $user_akun[0]['npm']))->result_array();
+		$data_krs = $this->m_mahasiswa->getAllData('v_mhs_perwalian', array('npm' => $user_akun[0]['npm'], 'tahun_ajaran' => $this->session->tahun_ajaran), array('id_matkul' => 'ASC'))->result_array();
 
 		// get Chat
 		$chat = $this->m_mahasiswa->getAllData('chat', array('room' => $user_akun[0]['npm'], 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
@@ -348,6 +351,89 @@ class Mahasiswa extends CI_Controller {
 			$this->m_mahasiswa->insertData('chat', $data);
 			redirect($this->uri->uri_string());
 		}
+
+		// drop matkul
+		$drop = $this->input->post('drop_matkul');
+
+		if (isset($drop)) {
+			$data = array('id' => $this->input->post('id'));
+
+			$this->m_mahasiswa->deleteData('krs', $data);
+			redirect($this->uri->uri_string());
+		}
+	}
+
+	function add()
+	{
+		// get data user
+		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
+
+		//check pembayaran
+		$this->check_pembayaran();
+
+		// get data matakuliah
+		$mk = $this->m_mahasiswa->getAllData('matakuliah')->result_array();
+
+		// get data KRS
+		$data_krs = $this->m_mahasiswa->getAllData('v_mhs_perwalian', array('npm' => $user_akun[0]['npm'], 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// get perwalian
+		$perwalian = $this->m_mahasiswa->getAllData('stt_perwalian', array('npm' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->num_rows();
+		
+		// get dosen wali
+		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['krs'] = $this->krs;
+		$data['mk'] = $mk;
+		@$data['dosen_wali'] = $dosen_wali[0];
+		$data['data_krs'] = $data_krs;
+
+		// funtion view
+		if ($perwalian !== 1) {
+			$url = base_url().'mahasiswa/krs';
+			redirect($url,'refresh');
+		} else {
+			$this->set_view('mahasiswa/add', $data);	
+		}	
+		
+		// SUBMIT PERWALIAN
+		$krs = $this->input->post('submitKrs');
+
+		if (isset($krs)) {
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$tglperwalian = $date->format('Y-m-d H:i:s');
+
+			$id_matkul = array();
+			$kode_matkul = array();
+
+			for ($i=0; $i < count($this->input->post('kode_matkul')); $i++) { 
+				$matkul = explode(',', $this->input->post('kode_matkul')[$i]);
+				$id_matkul[] = $matkul[0];
+				$kode_matkul[] = $matkul[1];
+			}
+
+			$data = array();
+
+			for ($i = 0; $i < count($this->input->post('kode_matkul')); $i++) {
+	            $data[$i] = array(
+	            	'npm' => $this->session->username,
+	            	'id_matkul' => $id_matkul[$i],
+	                'kode_matkul' => $kode_matkul[$i],
+	                'kelas' => $user_akun[0]['kelas'],
+	                'tahun_ajaran' => $this->session->tahun_ajaran
+	            );
+	        };
+
+	        $this->m_mahasiswa->insertAllData('krs', $data);
+	        $url = base_url().'mahasiswa/perwalian';
+	        redirect($url, 'refresh');
+	    }
 	}
 
 	function administrasi()

@@ -82,7 +82,8 @@ switch ($user['program_kekhususan']) {
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Profil</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Perwalian</a></li>
+        <li class="active">Add</li>
       </ol>
     </section>
 
@@ -93,12 +94,13 @@ switch ($user['program_kekhususan']) {
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Perwalian Mahasiswa</h3>
+              <h3 class="box-title">Add Matakuliah</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
 
 <!-- CONTENT SHOULD BE HERE  -->
+            
 <br/>
 <div class="row">
 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -206,149 +208,108 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
 
 <div class="table-responsive">
   <table class="table table-striped">
-    <tr class="danger">
+    <tr class="info">
       <th>No</th>
-      <th>Kode Matkul</th>
-      <th>Nama Matkul</th>
+      <th>Kode MK</th>
+      <th>Nama MK</th>
       <th>SKS</th>
-      <th>Semester</th>
-      <th>Add/Drop</th>
+      <th>Pilih</th>
+    </tr>
+<form method="post" onsubmit="return confirm('Apakah anda yakin dengan matakuliah yang dipilih?')">
+<?php
+
+  for ($i=1; $i <= 8; $i++) {
+    if ($i % 2 == $periode) {
+      
+    if ($i !== 7) {
+?>
+    <tr class="success">
+      <th colspan="5">Semester <?=$i?></th>
+    </tr>
+<?php
+    } else {
+?>
+    <tr class="success">
+      <th colspan="5">Semester <?=$i?> - Program Kekhususan : <?=$user['program_kekhususan']?></th>
     </tr>
 
 <?php
+    }
 $no = 1;
-$totalSks = 0;
-$id_matkul = array();
-  foreach ($data_krs as $key => $value) {
+$remove = null;
+
+for ($j=0; $j < count($mk); $j++) { 
+  if ($mk[$j]['semester'] == $i && ($mk[$j]['program_kekhususan'] == 0 || $mk[$j]['program_kekhususan'] == $pk)) {
+    for ($k=0; $k < count($data_krs); $k++) { 
+      if ($mk[$j]['id'] == $data_krs[$k]['id_matkul']) {
+        $remove = $mk[$j]['id'];
+      }
+    }
+    if ($mk[$j]['id'] !== $remove) {
+
 ?>
-    <tr>
-      <td><?=$no++?></td>
-      <td><?=$value['kode_matkul']?></td>
-      <td><?=$value['nama_matkul']?></td>
-      <td><?=$value['sks']?></td>
-      <td><?=$value['semester']?></td>
-      <td>
-      <?php
-        if (($sttperwalian[0]['v_dosen'] == 1) || ($sttperwalian[0]['v_baa'] == 1)) {
-      ?>
-      <a href="#" class="btn btn-default btn-xs disabled"><i class="fa fa-remove"></i> drop</a>
-      <?php } else {
-      ?>
-      <form method="post">
-        <input type="hidden" name="id" value="<?=$value['id']?>">
-        <button class="btn btn-danger btn-xs" name="drop_matkul" onclick="return confirm('Apakah anda yakin akan menghapus matakuliah <?=$value['nama_matkul']?>')"><i class="fa fa-remove"></i> drop</button>
-      </form>
-      <?php } ?>
-      </td>
-    </tr>
+<tr>
+        <td><?=$no++?></td>
+        <td><?=$mk[$j]['kode_matkul']?></td>
+        <td><?=$mk[$j]['nama_matkul']?></td>
+        <td><?=$mk[$j]['sks']?></td>
+        <td>
+          <input type="checkbox" class="checkbox1" name="kode_matkul[]" value="<?=$mk[$j]['id'].','.$mk[$j]['kode_matkul']?>" data-valuetwo="<?=$mk[$j]['sks']?>">
+        </td>
+      </tr>
 <?php
-  $totalSks += $value['sks'];
+      
+    }
+  }
+}
+    // foreach ($mk as $key => $value) {
+    //   if ($value['semester'] == $i && ($value['program_kekhususan'] == 0 || $value['program_kekhususan'] == $pk)) {
+?>
+      <!-- <tr>
+        <td><?=$no++?></td>
+        <td><?=$value['kode_matkul']?></td>
+        <td><?=$value['nama_matkul']?></td>
+        <td><?=$value['sks']?></td>
+        <td>
+          <input type="checkbox" class="checkbox1" name="kode_matkul[]" value="<?=$value['id'].','.$value['kode_matkul']?>" data-valuetwo="<?=$value['sks']?>">
+        </td>
+      </tr> -->
+<?php
+    //   }
+    // }
+  }
+$no = 1;
   }
 ?>
-  <tr class="danger">
+  </div>
+  <tr class="info">
       <th></th>
       <th></th>
+      <th>Total SKS</th>
+      <th><i id="sum"></i></th>
+      <th>SKS</th>
+    </tr>
+  <tr>
       <th></th>
-      <th>Total</th>
-      <th><?=$totalSks?> SKS</th>
+      <th></th>
       <th>
-      <?php
-        if (($sttperwalian[0]['v_dosen'] == 1) || ($sttperwalian[0]['v_baa'] == 1)) {
-      ?>
-      <a href="#" class="btn btn-default btn-xs disabled"><i class="fa fa-plus"></i> add</a>
-      <?php } else {
-      ?>
-      <a href="<?=base_url()?>mahasiswa/add" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> add</a>
-      <?php } ?>
+        <span class="pull-right">Periksa kembali pilihan matakuliahnya sebelum menekan tombol PILIH</span>
+      </th>
+      <th colspan="2">
+        <input type="hidden" name="totalSks" id="totalSks" >
+        <input type="hidden" name="npm" value="<?=$user['npm']?>">
+        <input type="hidden" name="kelas" value="<?=$user['kelas']?>">
+        <input type="hidden" name="submitKrs" value="Pilih" class="btn btn-primary btn-sm">
+        <button type="submit" class="btn btn-primary btn-sm">
+          <i class='fa fa-check'></i> Pilih
+        </button>
       </th>
     </tr>
-  </table>
-</div>
-<hr/>
-
-<div class="row">
-  <div class="col-md-6 col-xs-12">
-    <?php
-
-?>
-
-<strong>Status Validasi Dosen Wali</strong>
-    <p class="text-muted">
-      <?php
-        if ($sttperwalian[0]['v_dosen'] == 0){
-          echo "<span class='label label-danger'><i class='fa fa-close'></i> Menunggu Validasi </span>";
-        } else {
-          echo "<span class='label label-success'><i class='fa fa-check'></i> Sudah disetujui pada tanggal ".date('d-m-Y H:i',strtotime($sttperwalian[0]['tgl_v_dosen']))." WIB</span>";
-        }
-      ?>
-    </p>
-
-<strong>Status Validasi Bagian Akademik</strong>
-    <p class="text-muted">
-      <?php
-        if ($sttperwalian[0]['v_baa'] == 0){
-          echo "<span class='label label-danger'><i class='fa fa-close'></i> Menunggu Validasi </span>";
-        } else {
-          echo "<span class='label label-success'><i class='fa fa-check'></i> Sudah disetujui pada tanggal ".date('d-m-Y H:i',strtotime($sttperwalian[0]['tgl_v_baa']))." WIB</span>";
-        }
-      ?>
-    </p>
-
-<?php
-  if (($sttperwalian[0]['v_dosen'] == 0) || ($sttperwalian[0]['v_baa'] == 0)) {
-?>
-<a href="#" class="btn btn-primary btn-sm disabled"><i class="fa fa-print"></i> Cetak KRS</a>
-<?php
-  } else {
-?>
-<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Cetak KRS</a>
-<?php } ?>
-
-
-
-  </div>
-  <div class="col-md-6 col-xs-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Chat</h3>
-      </div>
-      <div class="panel-body">
-      <table class="table">
-<?php
-
-  foreach ($chat as $key => $value) {
-    if ($value['from'] == $user['nidn']) {
-      echo "<tr class='success'><td><strong>Dosen Wali: </strong><br/>";
-      echo $value['pesan']."</td></tr>";
-    } elseif ($value['from'] == $user['npm']) {
-      echo "<tr class='warning'><td><strong>You: </strong><br/>";
-      echo $value['pesan']."</td></tr>";
-    } else {
-      echo "<tr class='info'><td><strong>Bagian Akademik: </strong><br/>";
-      echo $value['pesan']."</td></tr>";
-    }
     
-  }
-?>
-      </table>
-      </div>
-    </div>
-
-    <form method="post" class="form-horizontal">
-      <div class="form-group">
-        <div class="col-sm-10">
-          <input type="text" id="cMess"  class="form-control" name="message" placeholder="Tulis pesan...">
-        </div>
-        <div class="col-sm-2">
-          <input type="submit" class="form-control btn btn-primary btn-sm" value="Kirim" name="kirimChat">
-        </div>
-      </div>
-    </form>
-
-  </div>
-</div>
-
-
+  </table>
+  
+</form> 
+<a href="<?=base_url()?>mahasiswa/perwalian" class="btn btn-primary btn-xs"><i class="fa fa-arrow-left"></i> kembali</a>
 
 <!-- END OF CONTENT  -->
             <!-- /.box-body -->
@@ -362,5 +323,8 @@ $id_matkul = array();
   </div>
   <!-- /.content-wrapper -->
 
-
+<script type="text/javascript">
+  var semesterMhs = "<?=$semester?>";
+  var pk = "<?=$user['program_kekhususan']?>";
+</script>
   

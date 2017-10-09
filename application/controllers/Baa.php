@@ -20,7 +20,7 @@ class Baa extends CI_Controller {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view($url, $data);
-			//$this->load->view('admin/modal', $data);
+			$this->load->view('baa/modal', $data);
 			$this->load->view('footer');
 		} else {
 			redirect('login', 'refresh');
@@ -136,6 +136,62 @@ class Baa extends CI_Controller {
 
 			$this->m_baa->updateData('stt_perwalian', $data, $where);
 			redirect($this->uri->uri_string());
+		}
+	}
+
+	function jadwal()
+	{
+		// get data user
+		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
+
+		// get matakuliah
+		$matkul = $this->m_baa->getAllData('matakuliah', null, array('id' => 'ASC'))->result_array();
+
+		// get jadwal
+		$jadwal = $this->m_baa->getAllData('jadwal', null, array('semester' => 'ASC'))->result_array();
+
+		// get dosen
+		$dosen = $this->m_baa->getAllData('dosen', null, array('nidn' => 'ASC'))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['matkul'] = $matkul;
+		$data['jadwal'] = $jadwal;
+		$data['dosen'] = $dosen;
+
+		// funtion view
+		$this->set_view('baa/jadwal', $data);	
+
+		// tambah jadwal
+		$tmbhJadwal = $this->input->post('tambahJadwal');
+		if (isset($tmbhJadwal)) {
+			$matakuliah = explode(',', $this->input->post('kode-matkul'));
+			$dsen = explode('-', $this->input->post('nidn-dosen'));
+
+			$data = array(
+				'id_matkul' => $matakuliah[0],
+				'kode_matkul' => $matakuliah[1],
+				'nama_matkul' => $matakuliah[2],
+				'sks' => $matakuliah[3],
+				'nidn' => trim(preg_replace('/\s\s+/', ' ', $dsen[0])),
+				'nama_dosen' => $dsen[1],
+				'status' => $this->input->post('perkuliahan'),
+				'kelas' => $this->input->post('kelas'),
+				'hari' => $this->input->post('hari'),
+				'jam_mulai' => $this->input->post('jam_mulai'),
+				'jam_selesai' => $this->input->post('jam_selesai'),
+				'ruangan' => $this->input->post('ruangan'),
+				'semester' => $matakuliah[4],
+				'tahun_ajaran' => $this->session->tahun_ajaran
+				);
+
+			$this->m_baa->insertData('jadwal', $data);
+
+			$this->session->set_flashdata('success', true);
+
+			redirect($this->uri->uri_string());
+			//print_r($data);
+			// echo $dsen[0];
 		}
 	}
 

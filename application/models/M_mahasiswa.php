@@ -130,4 +130,12 @@ class M_mahasiswa extends CI_Model {
 		$this->db->update('mhs', $data2);
 		$this->db->trans_complete();
 	}
+
+// DELETE DATA
+
+	function deleteData($table, $where)
+	{
+		$this->db->where($where);
+		$this->db->delete($table);
+	}
 }

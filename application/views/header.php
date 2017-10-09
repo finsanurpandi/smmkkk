@@ -31,12 +31,14 @@
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/datepicker/datepicker3.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/daterangepicker/daterangepicker.css">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/plugins/timepicker/bootstrap-timepicker.min.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- Custom CSS Bootstrap -->
   <link rel="stylesheet" href="<?=base_url()?>assets/css/custom.css">
   <!-- SELECT 2 -->
-  <link rel="stylesheet" href="<?=base_url()?>assets/css/select2.min.css">
+  <link rel="stylesheet" href="<?=base_url()?>assets/plugins/select2/select2.min.css">
 
   <!-- DataTables -->
   <link rel="stylesheet" href="<?=base_url()?>assets/plugins/datatables/dataTables.bootstrap.css">

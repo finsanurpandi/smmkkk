@@ -202,5 +202,44 @@ class Dosen extends CI_Controller {
 		}
 	}
 
+	function jadwal()
+	{
+		// get data user
+		$user_akun = $this->m_dosen->getAllData('dosen', array('nidn' => $this->session->username))->result_array();
+
+		// get jadwal
+		$jadwal = $this->m_dosen->getAllData('jadwal', array('nidn' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['jadwal'] = $jadwal;
+		
+		// funtion view
+		$this->set_view('dosen/jadwal', $data);
+	}
+
+	function detail_jadwal($idmatkul, $kelas)
+	{
+		$idmatkul = $this->encrypt->decode($idmatkul);
+		$kelas = $this->encrypt->decode($kelas);
+
+		// get data user
+		$user_akun = $this->m_dosen->getAllData('dosen', array('nidn' => $this->session->username))->result_array();
+
+		// get detail jadwal
+		$jadwal = $this->m_dosen->getAllData('jadwal', array('id_matkul' => $idmatkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// get detail mahasiswa
+		$mhs = $this->m_dosen->getAllData('v_mhs_jadwal', array('id_matkul' => $idmatkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('npm' => 'ASC'))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['jadwal'] = $jadwal[0];
+		$data['mhs'] = $mhs;
+		
+		// funtion view
+		$this->set_view('dosen/detail_jadwal', $data);
+	}
+
 
 }
