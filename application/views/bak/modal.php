@@ -109,6 +109,43 @@
   </div>
 </div>
 
+<!-- Tambah data master keuangan -->
+<div class="modal fade modal-primary-custom" id="bakTambahMaster" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Master Keuangan</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="npm">Jenis Keuangan</label>
+            <input class="form-control" type="text" name="jKeuangan" id="npm">
+        </div>
+
+        <div class="form-group">
+            <label for="npm">Rincian</label>
+            <input class="form-control" type="text" name="rincian">
+        </div>
+        
+        <div class="form-group">
+            <label for="npm">Besaran</label>
+            <input class="form-control" type="number" name="besaran">
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" name="tambahMaster">Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 <!-- InputMask -->

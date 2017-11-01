@@ -72,7 +72,7 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="nama">Kelas</label>
             <select name="kelas" class="form-control">
               <option>---</option>
@@ -82,6 +82,25 @@
               <option value="D">D</option>
               <option value="E">E</option>
             </select>
+        </div> -->
+
+        <div class="form-group">
+            <label for="nama">Kelas</label><br/>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="kelas[]" value="A"> A
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="kelas[]" value="B"> B
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="kelas[]" value="C"> C
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="kelas[]" value="D"> D
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="kelas[]" value="E"> E
+            </label>
         </div>
 
         <div class="form-group">

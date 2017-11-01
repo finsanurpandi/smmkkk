@@ -189,5 +189,38 @@ class Bak extends CI_Controller {
 
 	}
 
+	function master()
+	{
+		// get data user
+		$user_akun = $this->m_bak->getAllData('staff', array('username' => $this->session->username))->result_array();
+
+		// get master data keuangan
+		$master = $this->m_bak->getAllData('master_keuangan')->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['master'] = $master;
+
+		// funtion view
+		$this->set_view('bak/master', $data);	
+
+		// add master
+		$mData = $this->input->post('tambahMaster');
+
+		if (isset($mData)) {
+			$data = array(
+				"jenis_keuangan" => $this->input->post('jKeuangan'),
+				"rincian" => $this->input->post('rincian'),
+				"besaran" => $this->input->post('besaran')
+				);
+
+			$this->m_bak->insertData('master_keuangan', $data);
+
+			$this->session->set_flashdata('success', true);
+
+			redirect($this->uri->uri_string());
+		}
+	}
+
 
 }

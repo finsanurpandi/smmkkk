@@ -157,18 +157,13 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
         <td>
         <?php
         if ($dosen_wali['gelar_depan'] == null) {
-          echo $dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
+          echo $dosen_wali['nik'].' - '.$dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
         } else {
-          echo $dosen_wali['gelar_depan'].' '.$dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
+          echo $dosen_wali['nik'].' - '.$dosen_wali['gelar_depan'].' '.$dosen_wali['nama'].', '.$dosen_wali['gelar_belakang'];
         }
         
         ?>
         </td>
-      </tr>
-      <tr>
-        <th>NIK</th>
-        <td>:</td>
-        <td><?=$dosen_wali['nik']?></td>
       </tr>
     </table>
 </div>
@@ -301,7 +296,7 @@ $id_matkul = array();
 <?php
   } else {
 ?>
-<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Cetak KRS</a>
+<a href="#" class="btn btn-primary btn-sm" onclick="window.print();"><i class="fa fa-print"></i> Cetak KRS</a>
 <?php } ?>
 
 

@@ -53,6 +53,7 @@
     <th>Waktu</th>
     <th>Kode - Matakuliah</th>
     <th>SKS</th>
+    <th>Kelas</th>
     <th>Ruang</th>
     <th>NIDN - Dosen</th>
     <th>Aksi</th>
@@ -69,6 +70,7 @@
     <td><?=date('H:i', strtotime($value['jam_mulai'])).'-'.date('H:i', strtotime($value['jam_selesai']))?></td>
     <td><?=$value['kode_matkul'].' - '.$value['nama_matkul']?></td>
     <td><?=$value['sks']?></td>
+    <td><?=$value['kelas']?></td>
     <td><?=$value['ruangan']?></td>
     <td><?=$value['nidn'].' - '.$value['nama_dosen']?></td>
     <td>

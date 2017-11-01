@@ -9,12 +9,13 @@ window.setTimeout(function() {
 
 // SET ACTIVE MENU
 
-// MENU bak
+// MENU BAK
 function bakClearMenu(){
 	$('#bakdashboard').remove('.active');
 	$('#bakprofil').remove('.active');
 	$('#bakregister').remove('.active');
 	$('#bakpembayaran').remove('.active');
+  $('#bakmaster').remove('.active');
 	
 }
 
@@ -28,7 +29,76 @@ if (role == 3) {
 			$('#bakregister').addClass('active');
 		} else if (uri == 'pembayaran' || uri == 'detailpembayaran') { 
 			$('#bakpembayaran').addClass('active');
-		};
+		} else if (uri == 'master') { 
+      $('#bakmaster').addClass('active');
+    };
+};
+
+// MENU BAA
+function baaClearMenu(){
+  $('#baaprofil').remove('.active');
+  $('#baaperwalian').remove('.active');
+  $('#baajadwal').remove('.active');
+}
+
+if (role == 4) {
+  if (uri == '') {
+      baaClearMenu();
+    } else if (uri == 'profil') { 
+      $('#baaprofil').addClass('active');
+    } else if (uri == 'perwalian') { 
+      $('#baaperwalian').addClass('active');
+    } else if (uri == 'jadwal') { 
+      $('#baajadwal').addClass('active');
+    };
+};
+
+// MENU DOSEN
+function dosenClearMenu(){
+  $('#dosenprofil').remove('.active');
+  $('#dosenperwalian').remove('.active');
+  $('#dosenjadwal').remove('.active');
+  $('#dosennilai').remove('.active');
+  
+}
+
+if (role == 2) {
+  if (uri == '') {
+      dosenClearMenu();
+    } else if (uri == 'profil') { 
+      $('#dosenprofil').addClass('active');
+    } else if (uri == 'perwalian') { 
+      $('#dosenperwalian').addClass('active');
+    } else if (uri == 'jadwal') { 
+      $('#dosenjadwal').addClass('active');
+    } else if (uri == 'nilai') { 
+      $('#dosennilai').addClass('active');
+    };
+};
+
+// MENU MAHASISWA
+function mhsClearMenu(){
+  $('#mhsprofil').remove('.active');
+  $('#mhsperwalian').remove('.active');
+  $('#mhsperkuliahan').remove('.active');
+  $('#mhsnilai').remove('.active');
+  $('#mhsadministrasi').remove('.active');
+}
+
+if (role == 1) {
+  if (uri == '') {
+      mhsClearMenu();
+    } else if (uri == 'profil') { 
+      $('#mhsprofil').addClass('active');
+    } else if (uri == 'perwalian' || uri == 'krs') { 
+      $('#mhsperwalian').addClass('active');
+    } else if (uri == 'perkuliahan') { 
+      $('#mhsperkuliahan').addClass('active');
+    } else if (uri == 'nilai' || uri == 'ips' || uri == 'ipk') { 
+      $('#mhsnilai').addClass('active');
+    } else if (uri == 'administrasi') {
+      $('#mhsadministrasi').addClass('active');
+    };
 };
 
 

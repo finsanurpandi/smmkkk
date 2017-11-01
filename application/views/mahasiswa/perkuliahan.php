@@ -82,7 +82,7 @@ switch ($user['program_kekhususan']) {
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Profil</li>
+        <li class="active">Perkuliahan</li>
       </ol>
     </section>
 
@@ -93,13 +93,12 @@ switch ($user['program_kekhususan']) {
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Kartu Rencana Studi (KRS)</h3>
+              <h3 class="box-title">Jadwal Perkuliahan Mahasiswa</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
 
 <!-- CONTENT SHOULD BE HERE  -->
-            
 <br/>
 <div class="row">
 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -125,29 +124,11 @@ switch ($user['program_kekhususan']) {
         <td>
         
 <?php
-if ($semester == 7 && $user['program_kekhususan'] == null) {
-?>
-
-<form class="form-inline" method="post">
-  <div class="form-group">
-    <select name="programkekhususan" class="form-control" style="width:auto;">
-      <option value="Hukum Keperdataan">Hukum Keperdataan</option>
-      <option value="Hukum Pidana">Hukum Pidana</option>
-      <option value="Hukum Tata Negara">Hukum Tata Negara</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <input type="submit" class="form-control btn btn-primary btn-sm" value="Pilih" name="pilihPk">
-  </div>
-</form>
-
-<?php
-} elseif ($semester == 7 && $user['program_kekhususan'] !== null) {
-  echo $user['program_kekhususan'];  
-} else {
+if ($user['program_kekhususan'] == null) {
   echo '-';
+} else {
+  echo $user['program_kekhususan'];
 }
-
 ?>
 
         </td>
@@ -200,83 +181,121 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
 </div>
 </div>
 
+<?php
+if ($sttperwalian !== 0) {
+
+?>
+
 <div class="table-responsive">
   <table class="table table-striped">
-    <tr class="info">
-      <th>No</th>
-      <th>Kode MK</th>
-      <th>Nama MK</th>
-      <th>SKS</th>
-      <th>Pilih</th>
+    <tr class="danger">
+      <th>Hari</th>
+      <th>Waktu</th>
+      <th>Nama Matkul</th>
+      <th>Ruang</th>
+      <th>Dosen</th>
     </tr>
-<form method="post" onsubmit="return confirm('Apakah anda yakin dengan matakuliah yang dipilih?')">
-<?php
 
-  for ($i=1; $i <= 8; $i++) {
-    if ($i % 2 == $periode) {
+<?php
+$tjadwal = count($jadwal);
+$day0 = 0;
+$day1 = 0; 
+$day2 = 0; 
+$day3 = 0; 
+$day4 = 0; 
+$day5 = 0; 
+
+
+for ($i=0; $i < $tjadwal; $i++) { 
+  switch (strtolower($jadwal[$i]['hari'])) {
+    case 'senin':
+      $day0 += 1;
+      $waktu0[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul0[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang0[] = $jadwal[$i]['ruangan'];
+      $dosen0[] = $jadwal[$i]['nama_dosen'];
+      break;
+    case 'selasa':
+      $day1 += 1;
+      $waktu1[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul1[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang1[] = $jadwal[$i]['ruangan'];
+      $dosen1[] = $jadwal[$i]['nama_dosen'];
+      break;
+    case 'rabu':
+      $day2 += 1;
+      $waktu2[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul2[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang2[] = $jadwal[$i]['ruangan'];
+      $dosen2[] = $jadwal[$i]['nama_dosen'];
+      break;
+    case 'kamis':
+      $day3 += 1;
+      $waktu3[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul3[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang3[] = $jadwal[$i]['ruangan'];
+      $dosen3[] = $jadwal[$i]['nama_dosen'];
+      break;
+    case 'jum\'at':
+      $day4 += 1;
+      $waktu4[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul4[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang4[] = $jadwal[$i]['ruangan'];
+      $dosen4[] = $jadwal[$i]['nama_dosen'];
+      break;
+    case 'sabtu':
+      $day5 += 1;
+      $waktu5[] = date('H:i', strtotime($jadwal[$i]['jam_mulai'])).'-'.date('H:i', strtotime($jadwal[$i]['jam_selesai']));
+      $matkul5[] = $jadwal[$i]['kode_matkul'].' - '.$jadwal[$i]['nama_matkul'];
+      $ruang5[] = $jadwal[$i]['ruangan'];
+      $dosen5[] = $jadwal[$i]['nama_dosen'];
+      break;
+  }
+}
+
+$thari = count($hari);
+
+
+for ($i=0; $i < $thari; $i++) { 
+  $loop = 0;
+
+  for ($j=0; $j < ${'day'.$i} ; $j++) { 
+    echo "<tr>";
+
+    if (${'day'.$i} > 1) {
       
-    if ($i !== 7) {
-?>
-    <tr class="success">
-      <th colspan="5">Semester <?=$i?></th>
-    </tr>
-<?php
-    } else {
-?>
-    <tr class="success">
-      <th colspan="5">Semester <?=$i?> - Program Kekhususan : <?=$user['program_kekhususan']?></th>
-    </tr>
 
-<?php
-    }
-$no = 1;
-    foreach ($mk as $key => $value) {
-      if ($value['semester'] == $i && ($value['program_kekhususan'] == 0 || $value['program_kekhususan'] == $pk)) {
-?>
-      <tr>
-        <td><?=$no++?></td>
-        <td><?=$value['kode_matkul']?></td>
-        <td><?=$value['nama_matkul']?></td>
-        <td><?=$value['sks']?></td>
-        <td>
-          <input type="checkbox" class="checkbox1" name="kode_matkul[]" value="<?=$value['id'].','.$value['kode_matkul']?>" data-valuetwo="<?=$value['sks']?>">
-        </td>
-      </tr>
-<?php
+      if ($loop < 1) {
+        echo "<td rowspan=".${'day'.$i}.">".ucfirst($hari[$i])."</td>";
+        $loop += 1;
       }
+
+ 
+    } else {
+      echo "<td>".ucfirst($hari[$i])."</td>";
     }
+
+    echo "<td>".${'waktu'.$i}[$j]."3</td>";
+    echo "<td>".${'matkul'.$i}[$j]."</td>";
+    echo "<td>".${'ruang'.$i}[$j]."</td>";
+    echo "<td>".${'dosen'.$i}[$j]."</td>";
+    echo "</tr>";
   }
-$no = 1;
-  }
-?>
-  </div>
-  <tr class="info">
-      <th></th>
-      <th></th>
-      <th>Total SKS</th>
-      <th><i id="sum"></i></th>
-      <th>SKS</th>
-    </tr>
-  <tr>
-      <th></th>
-      <th></th>
-      <th>
-        <span class="pull-right">Periksa kembali pilihan matakuliahnya sebelum menekan tombol PILIH</span>
-      </th>
-      <th colspan="2">
-        <input type="hidden" name="totalSks" id="totalSks" >
-        <input type="hidden" name="npm" value="<?=$user['npm']?>">
-        <input type="hidden" name="kelas" value="<?=$user['kelas']?>">
-        <input type="hidden" name="submitKrs" value="Pilih" class="btn btn-primary btn-sm">
-        <button type="submit" class="btn btn-primary btn-sm">
-          <i class='fa fa-check'></i> Pilih
-        </button>
-      </th>
-    </tr>
-    
-  </table>
   
-</form> 
+}
+echo "</table>";
+
+?>
+
+ </div>
+
+<?php } else { ?>
+<div class="alert alert-danger" role="alert"><p class="text-center">Anda belum melakukan perwalian</p></div>
+<?php } ?>
+<hr/>
+
+
+
 
 <!-- END OF CONTENT  -->
             <!-- /.box-body -->
@@ -290,8 +309,5 @@ $no = 1;
   </div>
   <!-- /.content-wrapper -->
 
-<script type="text/javascript">
-  var semesterMhs = "<?=$semester?>";
-  var pk = "<?=$user['program_kekhususan']?>";
-</script>
+
   

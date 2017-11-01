@@ -9,6 +9,9 @@ class Mahasiswa extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_mahasiswa');
 		$this->load->library('upload');	
+
+		//check pembayaran
+		$this->check_pembayaran();
 	}
 
 	function configImage($url)
@@ -434,6 +437,35 @@ class Mahasiswa extends CI_Controller {
 	        $url = base_url().'mahasiswa/perwalian';
 	        redirect($url, 'refresh');
 	    }
+	}
+
+	function perkuliahan()
+	{
+		// get data user
+		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
+
+		// get status perwalian
+		$sttperwalian = $this->m_mahasiswa->getAllData('stt_perwalian', array('npm' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->num_rows();
+
+		// get jadwal
+		$jadwal = $this->m_mahasiswa->getAllData('v_mhs_perkuliahan', array('npm' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// get dosen wali
+		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['krs'] = $this->krs;
+		@$data['dosen_wali'] = $dosen_wali[0];
+		$data['hari'] = array('senin', 'selasa', 'rabu', 'kamis', 'jum\'at', 'sabtu');
+		$data['jadwal'] = $jadwal;
+		$data['sttperwalian'] = $sttperwalian;
+
+		// funtion view
+		$this->set_view('mahasiswa/perkuliahan', $data);	
 	}
 
 	function administrasi()

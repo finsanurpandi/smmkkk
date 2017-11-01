@@ -168,30 +168,57 @@ class Baa extends CI_Controller {
 			$matakuliah = explode(',', $this->input->post('kode-matkul'));
 			$dsen = explode('-', $this->input->post('nidn-dosen'));
 
-			$data = array(
-				'id_matkul' => $matakuliah[0],
-				'kode_matkul' => $matakuliah[1],
-				'nama_matkul' => $matakuliah[2],
-				'sks' => $matakuliah[3],
-				'nidn' => trim(preg_replace('/\s\s+/', ' ', $dsen[0])),
-				'nama_dosen' => $dsen[1],
-				'status' => $this->input->post('perkuliahan'),
-				'kelas' => $this->input->post('kelas'),
-				'hari' => $this->input->post('hari'),
-				'jam_mulai' => $this->input->post('jam_mulai'),
-				'jam_selesai' => $this->input->post('jam_selesai'),
-				'ruangan' => $this->input->post('ruangan'),
-				'semester' => $matakuliah[4],
-				'tahun_ajaran' => $this->session->tahun_ajaran
-				);
+			// $data = array(
+			// 	'id_matkul' => $matakuliah[0],
+			// 	'kode_matkul' => $matakuliah[1],
+			// 	'nama_matkul' => $matakuliah[2],
+			// 	'sks' => $matakuliah[3],
+			// 	'nidn' => trim(preg_replace('/\s\s+/', ' ', $dsen[0])),
+			// 	'nama_dosen' => $dsen[1],
+			// 	'status' => $this->input->post('perkuliahan'),
+			// 	'kelas' => $this->input->post('kelas'),
+			// 	'hari' => $this->input->post('hari'),
+			// 	'jam_mulai' => $this->input->post('jam_mulai'),
+			// 	'jam_selesai' => $this->input->post('jam_selesai'),
+			// 	'ruangan' => $this->input->post('ruangan'),
+			// 	'semester' => $matakuliah[4],
+			// 	'tahun_ajaran' => $this->session->tahun_ajaran
+			// 	);
 
-			$this->m_baa->insertData('jadwal', $data);
+			// $this->m_baa->insertData('jadwal', $data);
 
-			$this->session->set_flashdata('success', true);
+			// $this->session->set_flashdata('success', true);
+
+			// redirect($this->uri->uri_string());
+			//print_r($this->input->post('kelas'));
+			// echo $dsen[0];
+
+			$data = array();
+
+			for ($i = 0; $i < count($this->input->post('kelas')); $i++) {
+	            $data[$i] = array(
+	            		'id_matkul' => $matakuliah[0],
+						'kode_matkul' => $matakuliah[1],
+						'nama_matkul' => $matakuliah[2],
+						'sks' => $matakuliah[3],
+						'nidn' => trim(preg_replace('/\s\s+/', ' ', $dsen[0])),
+						'nama_dosen' => $dsen[1],
+						'status' => $this->input->post('perkuliahan'),
+						'kelas' => $this->input->post('kelas')[$i],
+						'hari' => $this->input->post('hari'),
+						'jam_mulai' => $this->input->post('jam_mulai'),
+						'jam_selesai' => $this->input->post('jam_selesai'),
+						'ruangan' => $this->input->post('ruangan'),
+						'semester' => $matakuliah[4],
+						'tahun_ajaran' => $this->session->tahun_ajaran
+	            );
+	        };
+
+	        $this->m_baa->insertAllData('jadwal', $data);
+
+	        $this->session->set_flashdata('success', true);
 
 			redirect($this->uri->uri_string());
-			//print_r($data);
-			// echo $dsen[0];
 		}
 	}
 
