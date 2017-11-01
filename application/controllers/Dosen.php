@@ -241,5 +241,72 @@ class Dosen extends CI_Controller {
 		$this->set_view('dosen/detail_jadwal', $data);
 	}
 
+	function nilai()
+	{
+		// get data user
+		$user_akun = $this->m_dosen->getAllData('dosen', array('nidn' => $this->session->username))->result_array();
+
+		// get jadwal
+		$jadwal = $this->m_dosen->getAllData('jadwal', array('nidn' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['jadwal'] = $jadwal;
+		
+		// funtion view
+		$this->set_view('dosen/nilai', $data);
+	}
+
+	function detail_nilai($idmatkul, $kelas)
+	{
+		$idmatkul = $this->encrypt->decode($idmatkul);
+		$kelas = $this->encrypt->decode($kelas);
+
+		// get data user
+		$user_akun = $this->m_dosen->getAllData('dosen', array('nidn' => $this->session->username))->result_array();
+
+		// get detail jadwal
+		$jadwal = $this->m_dosen->getAllData('v_mhs_perkuliahan', array('id_matkul' => $idmatkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		// get detail mahasiswa
+		//$mhs = $this->m_dosen->getAllData('v_mhs_jadwal', array('id_matkul' => $idmatkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('npm' => 'ASC'))->result_array();
+		
+		// get status penilaian
+		$stt_penilaian = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->num_rows();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['jadwal'] = $jadwal[0];
+		$data['id_jadwal'] = $jadwal[0]['id_jadwal'];
+		$data['krs'] = $jadwal;
+		//$data['mhs'] = $mhs;
+
+		$submitNilai = $this->input->post('submitNilai');
+
+		if (isset($submitNilai)) {
+			//print_r($this->input->post());
+
+			$data = array();
+
+			for ($i = 0; $i < count($this->input->post('npm')); $i++) {
+	            $data[$i] = array(
+	            	'npm' => $this->input->post('npm')[$i],
+	            	'id_matkul' => $this->input->post('id_matkul')[$i],
+	                'tahun_ajaran' => $this->input->post('tahun_ajaran')[$i],
+	                'nidn' => $this->input->post('nidn')[$i],
+	                'semester_mhs' => $this->input->post('semester_mhs')[$i],
+	                'nilai' => $this->input->post('nilai')[$i]
+	            );
+	        };
+
+	        $this->m_dosen->insertAllData('nilai', $data);
+
+	        redirect($this->uri->uri_string());
+		}
+		
+		// funtion view
+		$this->set_view('dosen/detail_nilai', $data);
+	}
+
 
 }
