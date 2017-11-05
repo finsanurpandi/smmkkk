@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2017 at 12:31 PM
+-- Generation Time: Nov 05, 2017 at 02:51 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `chat` (
   `pesan` varchar(255) DEFAULT NULL,
   `sent` datetime DEFAULT CURRENT_TIMESTAMP,
   `tahun_ajaran` int(5) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `chat`
@@ -52,7 +52,8 @@ INSERT INTO `chat` (`id`, `from`, `room`, `pesan`, `sent`, `tahun_ajaran`) VALUE
 (00039, '430633009', '7420116043', 'sudah divalidasi', '2017-09-19 14:39:44', 20171),
 (00040, NULL, '7420116043', 'sudah divalidasi', '2017-09-24 22:59:32', 20171),
 (00041, '7420116042', '7420116042', 'sudah bisa disetujui?', '2017-10-09 18:01:00', 20171),
-(00042, '430633009', '7420116042', 'okay', '2017-10-09 18:02:46', 20171);
+(00042, '430633009', '7420116042', 'okay', '2017-10-09 18:02:46', 20171),
+(00043, '430633009', '7420116041', 'sudah?', '2017-11-04 20:42:08', 20171);
 
 -- --------------------------------------------------------
 
@@ -320,11 +321,11 @@ INSERT INTO `login` (`username`, `password`, `role`, `status`, `last_login`, `de
 ('0425076805', 'd27e22dff80cd71452822667d39c968b', 2, 1, NULL, NULL),
 ('0426098003', '61e7825267dc06d0c0450cf7287c0519', 2, 1, NULL, NULL),
 ('0427057902', '6a9684a5d77380630d081776cf5f3146', 2, 1, NULL, NULL),
-('430633009', '202cb962ac59075b964b07152d234b70', 2, 1, '2017-11-01 10:01:38', 'Mac OS X, Chrome 61.0.3163.100'),
-('7420116041', '74a31f35923e28e6fe61e8e85144fb8e', 1, 1, '2017-11-01 06:34:23', 'Mac OS X, Chrome 61.0.3163.100'),
+('430633009', '202cb962ac59075b964b07152d234b70', 2, 1, '2017-11-04 18:00:50', 'Mac OS X, Chrome 61.0.3163.100'),
+('7420116041', '74a31f35923e28e6fe61e8e85144fb8e', 1, 1, '2017-11-05 01:30:57', 'Mac OS X, Chrome 61.0.3163.100'),
 ('7420116042', '5848536e19caff3170e6bf45c94e84b8', 1, 1, '2017-10-12 02:37:16', 'Mac OS X, Chrome 61.0.3163.100'),
 ('7420116043', '202cb962ac59075b964b07152d234b70', 1, 1, '2017-11-01 09:56:24', 'Mac OS X, Chrome 61.0.3163.100'),
-('7420116044', '202cb962ac59075b964b07152d234b70', 1, 1, '2017-11-01 05:35:40', 'Mac OS X, Chrome 61.0.3163.100'),
+('7420116044', '202cb962ac59075b964b07152d234b70', 1, 1, '2017-11-04 17:15:27', 'Mac OS X, Chrome 61.0.3163.100'),
 ('7420116045', '202cb962ac59075b964b07152d234b70', 1, 1, '2017-11-01 05:35:01', 'Mac OS X, Chrome 61.0.3163.100'),
 ('7420116046', '7f06bd37c5c2e0c5e230ca1c6876d5a1', 1, 1, NULL, NULL),
 ('akademik', '202cb962ac59075b964b07152d234b70', 4, 1, '2017-10-12 08:11:48', 'Mac OS X, Chrome 61.0.3163.100'),
@@ -492,6 +493,26 @@ INSERT INTO `matakuliah` (`id`, `kode_matkul`, `nama_matkul`, `sks`, `semester`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu`
+--
+
+CREATE TABLE IF NOT EXISTS `menu` (
+  `id` int(3) unsigned zerofill NOT NULL,
+  `menu` varchar(25) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `valid` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`id`, `menu`, `status`, `valid`) VALUES
+(001, 'dosen_nilai', 1, '2017-11-04 20:12:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `mhs_ortu`
 --
 
@@ -527,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `mhs_pembayaran` (
   `tgl_validasi` timestamp NULL DEFAULT NULL,
   `no_bukti_pembayaran` int(50) NOT NULL,
   `keterangan` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mhs_pembayaran`
@@ -569,21 +590,28 @@ CREATE TABLE IF NOT EXISTS `mhs_perwalian` (
 CREATE TABLE IF NOT EXISTS `nilai` (
   `id` int(5) unsigned zerofill NOT NULL,
   `npm` char(15) NOT NULL,
+  `id_jadwal` int(5) unsigned zerofill NOT NULL,
   `id_matkul` int(2) NOT NULL,
   `tahun_ajaran` int(5) NOT NULL,
   `nidn` char(10) NOT NULL,
   `semester_mhs` char(2) NOT NULL,
+  `tugas` float NOT NULL,
+  `uts` float NOT NULL,
+  `uas` int(5) NOT NULL,
+  `nilai_akhir` int(5) NOT NULL,
   `nilai` int(1) NOT NULL,
   `log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `nilai`
 --
 
-INSERT INTO `nilai` (`id`, `npm`, `id_matkul`, `tahun_ajaran`, `nidn`, `semester_mhs`, `nilai`, `log`) VALUES
-(00002, '7420116041', 26, 20171, '430633009', '3', 4, '2017-11-01 10:19:36'),
-(00003, '7420116043', 26, 20171, '430633009', '3', 3, '2017-11-01 10:19:36');
+INSERT INTO `nilai` (`id`, `npm`, `id_jadwal`, `id_matkul`, `tahun_ajaran`, `nidn`, `semester_mhs`, `tugas`, `uts`, `uas`, `nilai_akhir`, `nilai`, `log`) VALUES
+(00016, '7420116041', 00011, 19, 20171, '430633009', '3', 12, 13, 14, 15, 3, '2017-11-04 11:30:34'),
+(00017, '7420116043', 00011, 19, 20171, '430633009', '3', 16, 17, 18, 19, 2, '2017-11-04 11:30:34'),
+(00018, '7420116041', 00009, 26, 20171, '430633009', '3', 45, 45, 45, 45, 4, '2017-11-04 18:01:20'),
+(00019, '7420116043', 00009, 26, 20171, '430633009', '3', 45, 45, 45, 45, 4, '2017-11-04 18:01:20');
 
 -- --------------------------------------------------------
 
@@ -672,15 +700,17 @@ INSERT INTO `staff` (`username`, `nik`, `nama`, `jenis_kelamin`, `jabatan`, `ima
 CREATE TABLE IF NOT EXISTS `stt_penilaian` (
   `id_jadwal` int(5) unsigned zerofill NOT NULL,
   `nidn` char(10) NOT NULL,
-  `status` int(1) NOT NULL
+  `status` int(1) NOT NULL DEFAULT '1',
+  `log` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stt_penilaian`
 --
 
-INSERT INTO `stt_penilaian` (`id_jadwal`, `nidn`, `status`) VALUES
-(00009, '430633009', 1);
+INSERT INTO `stt_penilaian` (`id_jadwal`, `nidn`, `status`, `log`) VALUES
+(00009, '430633009', 1, '2017-11-05 01:01:20'),
+(00011, '430633009', 1, '2017-11-04 18:30:34');
 
 -- --------------------------------------------------------
 
@@ -709,7 +739,7 @@ INSERT INTO `stt_perwalian` (`id`, `npm`, `nidn`, `tahun_ajaran`, `tgl_perwalian
 (00010, '7420116044', '430633009', 20171, '2017-09-09 21:17:16', 1, '2017-09-19 14:32:18', 1, '2017-09-24 23:09:18', 21),
 (00012, '7420116041', '430633009', 20171, '2017-10-02 12:22:42', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
 (00013, '7420116042', '430633009', 20171, '2017-10-09 14:30:42', 1, '2017-10-09 18:13:35', 0, '0000-00-00 00:00:00', 0),
-(00014, '7420116043', '430633009', 20171, '2017-11-01 16:56:44', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(00014, '7420116043', '430633009', 20171, '2017-11-01 16:56:44', 1, '2017-11-04 20:42:44', 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -741,13 +771,17 @@ INSERT INTO `stt_tempat_tinggal` (`id`, `status_tempat_tinggal`) VALUES
 CREATE TABLE IF NOT EXISTS `tahun_ajaran` (
   `id` int(2) NOT NULL,
   `tahun_ajaran` int(5) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tahun_ajaran`
 --
 
 INSERT INTO `tahun_ajaran` (`id`, `tahun_ajaran`) VALUES
+(2, 20151),
+(3, 20152),
+(4, 20161),
+(5, 20162),
 (1, 20171);
 
 -- --------------------------------------------------------
@@ -848,6 +882,7 @@ CREATE TABLE IF NOT EXISTS `v_mhs_stt_perwalian` (
 CREATE TABLE IF NOT EXISTS `v_nilai` (
 `npm` char(15)
 ,`nama_mhs` varchar(50)
+,`id_jadwal` int(5) unsigned zerofill
 ,`id_matkul` int(2)
 ,`kode_matkul` char(7)
 ,`nama_matkul` varchar(50)
@@ -859,8 +894,28 @@ CREATE TABLE IF NOT EXISTS `v_nilai` (
 ,`gelar_depan` char(20)
 ,`gelar_belakang` char(50)
 ,`semester_mhs` char(2)
+,`tugas` float
+,`uts` float
+,`uas` int(5)
+,`nilai_akhir` int(5)
 ,`nilai` int(1)
 ,`log` timestamp
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `v_nilai_semester`
+--
+CREATE TABLE IF NOT EXISTS `v_nilai_semester` (
+`npm` char(15)
+,`id_matkul` int(2)
+,`kode_matkul` char(7)
+,`nama_matkul` varchar(50)
+,`sks` int(1)
+,`semester` int(1)
+,`tahun_ajaran` int(5)
+,`nilai` int(1)
 );
 
 -- --------------------------------------------------------
@@ -915,7 +970,16 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_nilai`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_nilai` AS select `nilai`.`npm` AS `npm`,`mahasiswa`.`nama` AS `nama_mhs`,`nilai`.`id_matkul` AS `id_matkul`,`matakuliah`.`kode_matkul` AS `kode_matkul`,`matakuliah`.`nama_matkul` AS `nama_matkul`,`matakuliah`.`sks` AS `sks`,`mahasiswa`.`kelas` AS `kelas`,`nilai`.`tahun_ajaran` AS `tahun_ajaran`,`nilai`.`nidn` AS `nidn`,`dosen`.`nama` AS `nama_dosen`,`dosen`.`gelar_depan` AS `gelar_depan`,`dosen`.`gelar_belakang` AS `gelar_belakang`,`nilai`.`semester_mhs` AS `semester_mhs`,`nilai`.`nilai` AS `nilai`,`nilai`.`log` AS `log` from (((`nilai` join `mahasiswa` on((`nilai`.`npm` = `mahasiswa`.`npm`))) join `matakuliah` on((`nilai`.`id_matkul` = `matakuliah`.`id`))) join `dosen` on((`nilai`.`nidn` = `dosen`.`nidn`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_nilai` AS select `nilai`.`npm` AS `npm`,`mahasiswa`.`nama` AS `nama_mhs`,`nilai`.`id_jadwal` AS `id_jadwal`,`nilai`.`id_matkul` AS `id_matkul`,`matakuliah`.`kode_matkul` AS `kode_matkul`,`matakuliah`.`nama_matkul` AS `nama_matkul`,`matakuliah`.`sks` AS `sks`,`mahasiswa`.`kelas` AS `kelas`,`nilai`.`tahun_ajaran` AS `tahun_ajaran`,`nilai`.`nidn` AS `nidn`,`dosen`.`nama` AS `nama_dosen`,`dosen`.`gelar_depan` AS `gelar_depan`,`dosen`.`gelar_belakang` AS `gelar_belakang`,`nilai`.`semester_mhs` AS `semester_mhs`,`nilai`.`tugas` AS `tugas`,`nilai`.`uts` AS `uts`,`nilai`.`uas` AS `uas`,`nilai`.`nilai_akhir` AS `nilai_akhir`,`nilai`.`nilai` AS `nilai`,`nilai`.`log` AS `log` from (((`nilai` join `mahasiswa` on((`nilai`.`npm` = `mahasiswa`.`npm`))) join `matakuliah` on((`nilai`.`id_matkul` = `matakuliah`.`id`))) join `dosen` on((`nilai`.`nidn` = `dosen`.`nidn`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_nilai_semester`
+--
+DROP TABLE IF EXISTS `v_nilai_semester`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_nilai_semester` AS select `krs`.`npm` AS `npm`,`krs`.`id_matkul` AS `id_matkul`,`krs`.`kode_matkul` AS `kode_matkul`,`matakuliah`.`nama_matkul` AS `nama_matkul`,`matakuliah`.`sks` AS `sks`,`matakuliah`.`semester` AS `semester`,`krs`.`tahun_ajaran` AS `tahun_ajaran`,`nilai`.`nilai` AS `nilai` from ((`krs` join `matakuliah` on((`krs`.`id_matkul` = `matakuliah`.`id`))) left join `nilai` on(((`krs`.`npm` = `nilai`.`npm`) and (`nilai`.`id_matkul` = `krs`.`id_matkul`))));
 
 --
 -- Indexes for dumped tables
@@ -1003,6 +1067,12 @@ ALTER TABLE `matakuliah`
   ADD KEY `kode_matkul` (`kode_matkul`) USING BTREE;
 
 --
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `mhs_ortu`
 --
 ALTER TABLE `mhs_ortu`
@@ -1033,7 +1103,8 @@ ALTER TABLE `nilai`
   ADD KEY `npm` (`npm`),
   ADD KEY `id_matkul` (`id_matkul`),
   ADD KEY `tahun_ajaran` (`tahun_ajaran`),
-  ADD KEY `nidn` (`nidn`);
+  ADD KEY `nidn` (`nidn`),
+  ADD KEY `id_jadwal` (`id_jadwal`);
 
 --
 -- Indexes for table `program_kekhususan`
@@ -1096,7 +1167,7 @@ ALTER TABLE `tahun_ajaran`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT for table `jabatan_fungsional`
 --
@@ -1123,10 +1194,15 @@ ALTER TABLE `master_keuangan`
 ALTER TABLE `matakuliah`
   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=79;
 --
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `mhs_pembayaran`
 --
 ALTER TABLE `mhs_pembayaran`
-  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `mhs_perwalian`
 --
@@ -1136,7 +1212,7 @@ ALTER TABLE `mhs_perwalian`
 -- AUTO_INCREMENT for table `nilai`
 --
 ALTER TABLE `nilai`
-  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `registrasi`
 --
@@ -1151,7 +1227,7 @@ ALTER TABLE `stt_perwalian`
 -- AUTO_INCREMENT for table `tahun_ajaran`
 --
 ALTER TABLE `tahun_ajaran`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
@@ -1226,7 +1302,8 @@ ALTER TABLE `nilai`
   ADD CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`npm`) REFERENCES `mahasiswa` (`npm`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_matkul`) REFERENCES `matakuliah` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `nilai_ibfk_3` FOREIGN KEY (`tahun_ajaran`) REFERENCES `tahun_ajaran` (`tahun_ajaran`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `nilai_ibfk_4` FOREIGN KEY (`nidn`) REFERENCES `dosen` (`nidn`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `nilai_ibfk_4` FOREIGN KEY (`nidn`) REFERENCES `dosen` (`nidn`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `nilai_ibfk_5` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal` (`id_jadwal`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `registrasi`
