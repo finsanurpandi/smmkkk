@@ -73,6 +73,21 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getDistinctWhereData($table, $row, $where)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		$this->db->where($where);
+
+		$this->db->order_by('tahun_ajaran', 'DESC');
+
+		$query = $this->db->get($table);
+
+		return $query;
+	}
+
 	function getDistinctDataOrder($table, $where = null, $row, $order)
 	{
 		$this->db->distinct();

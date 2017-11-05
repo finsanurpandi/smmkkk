@@ -249,9 +249,16 @@ class Dosen extends CI_Controller {
 		// get jadwal
 		$jadwal = $this->m_dosen->getAllData('jadwal', array('nidn' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
+		// get status penilaian
+		$stt_penilaian = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
+
+		//get countdown
+		$countdown = $this->m_dosen->getAllData('menu', array('menu' => 'dosen_nilai'))->result_array();
+
 		// DATA
 		$data['user'] = $user_akun[0];
 		$data['jadwal'] = $jadwal;
+		$data['countdown'] = $countdown[0];
 		
 		// funtion view
 		$this->set_view('dosen/nilai', $data);
@@ -273,35 +280,56 @@ class Dosen extends CI_Controller {
 		
 		// get status penilaian
 		$stt_penilaian = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->num_rows();
+		$stt_penilaian_row = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
+
+		// get data nilai
+		$nilai = $this->m_dosen->getAllData('v_nilai', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
 
 		// DATA
 		$data['user'] = $user_akun[0];
 		$data['jadwal'] = $jadwal[0];
 		$data['id_jadwal'] = $jadwal[0]['id_jadwal'];
 		$data['krs'] = $jadwal;
+		$data['stt_penilaian'] = $stt_penilaian;
+		$data['stt_penilaian_row'] = @$stt_penilaian_row[0];
+		$data['nilai'] = $nilai;
 		//$data['mhs'] = $mhs;
 
 		$submitNilai = $this->input->post('submitNilai');
 
 		if (isset($submitNilai)) {
-			//print_r($this->input->post());
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$tglpenilaian = $date->format('Y-m-d H:i:s');
 
 			$data = array();
 
 			for ($i = 0; $i < count($this->input->post('npm')); $i++) {
 	            $data[$i] = array(
 	            	'npm' => $this->input->post('npm')[$i],
+	            	'id_jadwal' => $this->input->post('id_jadwal')[$i],
 	            	'id_matkul' => $this->input->post('id_matkul')[$i],
 	                'tahun_ajaran' => $this->input->post('tahun_ajaran')[$i],
 	                'nidn' => $this->input->post('nidn')[$i],
 	                'semester_mhs' => $this->input->post('semester_mhs')[$i],
+	                'tugas' => $this->input->post('tugas')[$i],
+	                'uts' => $this->input->post('uts')[$i],
+	                'uas' => $this->input->post('uas')[$i],
+	                'nilai_akhir' => $this->input->post('nilai_akhir')[$i],
 	                'nilai' => $this->input->post('nilai')[$i]
 	            );
 	        };
 
-	        $this->m_dosen->insertAllData('nilai', $data);
+	        $data2 = array(
+	        	'id_jadwal' => $this->input->post('id_jadwal')[0],
+	        	'nidn' => $this->input->post('nidn')[0],
+	        	'log' => $tglpenilaian
+	        	);
+
+	        $this->m_dosen->insertMultiple('nilai', $data, 'stt_penilaian', $data2);
 
 	        redirect($this->uri->uri_string());
+			//print_r($this->input->post());
 		}
 		
 		// funtion view

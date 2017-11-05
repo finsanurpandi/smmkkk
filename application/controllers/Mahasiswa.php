@@ -468,6 +468,74 @@ class Mahasiswa extends CI_Controller {
 		$this->set_view('mahasiswa/perkuliahan', $data);	
 	}
 
+// HASIL STUDI MAHASISWA
+	function nilai_semester()
+	{
+		// get data user
+		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
+
+		// get dosen wali
+		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
+
+		// get tahun akademik
+		// $allTa = $this->m_mahasiswa->getAllData('tahun_ajaran')->result_array();
+		$allTa = $this->m_mahasiswa->getDistinctWhereData('v_nilai_semester', 'tahun_ajaran', array('npm' => $this->session->username))->result_array();
+		$ta = $this->input->post('tahunajaran');
+		$tahunajaran = null;
+
+		if (!isset($ta)) {
+			$ips = $this->m_mahasiswa->getAllData('v_nilai_semester', array('npm' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran));
+			$tahunajaran = $this->session->tahunajaran;
+		} else {
+			$ips = $this->m_mahasiswa->getAllData('v_nilai_semester', array('npm' => $this->session->username, 'tahun_ajaran' => $ta));
+			$tahunajaran = $ta;
+		}
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		@$data['dosen_wali'] = $dosen_wali[0];
+		$data['krs'] = $this->krs;
+		$data['ips'] = $ips->result_array();
+		$data['tahunajaran'] = $tahunajaran;
+		$data['allTa'] = $allTa;
+
+
+		// funtion view
+		$this->set_view('mahasiswa/ips', $data);
+	}	
+
+	function nilai_kumulatif()
+	{
+		// get data user
+		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $user_akun[0]['kelas']);
+
+		// get data matakuliah
+		$mk = $this->m_mahasiswa->getAllData('matakuliah')->result_array();
+
+		// get dosen wali
+		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
+
+		// get nilai kumulatif
+		$ipk = $this->m_mahasiswa->getAllData('v_nilai_semester', array('npm' => $this->session->username))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['krs'] = $this->krs;
+		$data['mk'] = $mk;
+		@$data['dosen_wali'] = $dosen_wali[0];
+		$data['ipk'] = $ipk;
+
+		// funtion view
+		$this->set_view('mahasiswa/ipk', $data);
+
+	}
+
 	function administrasi()
 	{
 		// get data user
@@ -480,7 +548,8 @@ class Mahasiswa extends CI_Controller {
 		$this->check_pembayaran();
 
 		// get data pembayaran
-		$allTa = $this->m_mahasiswa->getAllData('tahun_ajaran')->result_array();
+		//$allTa = $this->m_mahasiswa->getAllData('tahun_ajaran')->result_array();
+		$allTa = $this->m_mahasiswa->getDistinctWhereData('mhs_pembayaran', 'tahun_ajaran', array('npm' => $this->session->username))->result_array();
 		$ta = $this->input->post('tahunajaran');
 		$tahunajaran = null;
 

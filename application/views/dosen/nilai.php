@@ -30,6 +30,7 @@
             <!-- /.box-header -->
             <div class="box-body box-profile">
             
+            <div class="table-responsive">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -46,6 +47,7 @@
               <tbody>
                 <?php
                 $no = 1;
+                $index = 1;
                 foreach ($jadwal as $key => $value) {
                 ?>
                   <tr>
@@ -57,7 +59,7 @@
                     <td><?=$value['ruangan']?></td>
                     <td><?=$value['semester']?></td>
                     <td>
-                      <a href="<?=base_url()?>dosen/detail_nilai/<?=$this->encrypt->encode($value['id_matkul'])?>/<?=$this->encrypt->encode($value['kelas'])?>" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> input nilai</a>
+                      <a href="<?=base_url()?>dosen/detail_nilai/<?=$this->encrypt->encode($value['id_matkul'])?>/<?=$this->encrypt->encode($value['kelas'])?>" class="btn btn-primary btn-xs" id="inputNilai<?=$index++?>"><i class="fa fa-plus"></i> input nilai</a>
                     </td>
                   </tr>
                 <?
@@ -65,7 +67,8 @@
                 ?>
               </tbody>
             </table>
-
+            </div>
+            <div><h3 id="demo"></h3></div>
 
           <hr/>
             <!-- /.box-body -->
@@ -77,5 +80,39 @@
     </section>
     <!-- /.content -->
   </div>
+  <?php
+  $waktu_valid = date('M d, Y H:i:s',strtotime($countdown['valid']));
+  ?>
   <!-- /.content-wrapper -->
+  <script type="text/javascript">
+    // var countDownDate = new Date('<?=$waktu_valid?>').getTime();
+    // var jadwal = <?=count($jadwal)?>;
+    // console.log(jadwal);
+    // var x = setInterval(function(){
+    //   var now = new Date().getTime();
+    //   var distance = countDownDate - now;
+
+    //   var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    //   var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      
+    //   document.getElementById("demo").innerHTML = "Waktu anda tinggal " + days + "hari " + hours + "jam "
+    //   + minutes + "menit " + seconds + "detik ";
+
+      
+    //   if (distance < 0) {
+    //     clearInterval(x);
+    //     document.getElementById("demo").innerHTML = "Waktu Anda Habis";
+        
+    //     for (var i = 1; i <= jadwal; i++) {
+    //       var tes = 'inputNilai'+i;
+    //       document.getElementById(tes).setAttribute('disabled', 'true'); 
+    //       document.getElementById(tes).setAttribute('href', 'javascript: void(0)'); 
+    //     };
+        
+    //   }
+    // }, 1000);
+  </script>
   
