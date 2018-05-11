@@ -40,8 +40,27 @@
 <?php
   }
 ?>
+<form class="form-inline" method="post" action="">
+  <div class="form-group">
+    <p class="form-control-static">Semester</p>
+  </div>
+  <div class="form-group">
+    <select name="tahunajaran" id="tahunajaran" class="form-control" style="width:auto;" onchange="this.form.submit();">
 
-<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#baaTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
+<?php
+  foreach ($allTa as $key => $value) {
+?>
+      <option value="<?=$value['tahun_ajaran']?>"><?=$value['tahun_ajaran']?></option>
+
+<?php } ?>
+
+    </select>
+  </div>
+</form>
+
+<hr/>
+
+<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#adminTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
 
 <hr/>
 <div class="table-responsive">
@@ -61,7 +80,6 @@
 </thead>
 <tbody>
 <?php
-  date_default_timezone_set("Asia/Bangkok");
   $no = 1;
   foreach ($jadwal as $key => $value) {
 ?>
@@ -100,9 +118,21 @@
   <script type="text/javascript">
     $(function () {
     //DATA TABLES
-    $("#dosenwali").DataTable({
-      "autoWidth": false
+      $("#dosenwali").DataTable({
+        "autoWidth": false
+      });
+
     });
-  });
+
+  var tahunajaran = document.getElementById('tahunajaran');
+
+    for (var i = 0; i < tahunajaran.options.length; i++) {
+      if (tahunajaran.options[i].value == <?=$tahunajaran?>) {
+        tahunajaran.options[i].setAttribute('selected', 'true');
+      };
+    };
+
+var ta = <?=$tahunajaran?>;
+console.log(ta);
 </script>
   

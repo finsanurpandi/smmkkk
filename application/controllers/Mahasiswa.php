@@ -11,7 +11,14 @@ class Mahasiswa extends CI_Controller {
 		$this->load->library('upload');	
 
 		//check pembayaran
-		$this->check_pembayaran();
+		//$this->check_pembayaran();
+
+		$login = $this->session->userdata("login_in");
+		if(!isset($login))
+        {
+        	redirect('login','refresh');
+        }
+
 	}
 
 	function configImage($url)
@@ -55,7 +62,7 @@ class Mahasiswa extends CI_Controller {
 
 		$session = $this->session->userdata('login_in');
 
-		if ($session == TRUE  && $this->session->role == 1) {
+		if ($session == TRUE && $this->session->role == 1) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view($url, $data);
@@ -80,6 +87,7 @@ class Mahasiswa extends CI_Controller {
 
 	function index()
 	{
+
 		// get data user
 		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
 		
@@ -125,6 +133,9 @@ class Mahasiswa extends CI_Controller {
 		// get data user
 		$user_akun = $this->m_mahasiswa->getAllData('mahasiswa', array('npm' => $this->session->username))->result_array();
 
+		// get data login
+		$user_login = $this->m_mahasiswa->getAllData('login', array('username' => $this->session->username))->result_array();
+
 		// get data orangtua
 		$orangtua = $this->m_mahasiswa->getAllData('mhs_ortu', array('npm' => $this->session->username))->result_array();
 		
@@ -137,6 +148,7 @@ class Mahasiswa extends CI_Controller {
 		// DATA
 		$data['user'] = $user_akun[0];
 		$data['ortu'] = @$orangtua[0];
+		$data['login'] = $user_login[0];
 		$data['krs'] = $this->krs;
 		$data['error'] = $this->upload->display_errors();
 
@@ -200,6 +212,29 @@ class Mahasiswa extends CI_Controller {
 			$this->session->set_flashdata('ortusuccess', true);
 
 			redirect($this->uri->uri_string()."?tab=orangtua");
+		}
+
+		$updatePass = $this->input->post('updatePass');
+		$oldPass = md5($this->input->post('passOld'));
+		$userPass = $this->input->post('userPass');
+
+		if (isset($updatePass)) {
+
+			if ($oldPass !== $userPass) {
+				$this->session->set_flashdata('passsuccess', true);
+
+				redirect($this->uri->uri_string()."?tab=password");
+			} else {
+				$data = array(
+					'password' => md5($this->input->post('passNew'))
+				);
+
+				$this->m_mahasiswa->updateData('login', $data, array('username' => $this->session->username));
+
+				$this->session->sess_destroy();
+				redirect('login', 'refresh');
+			}
+
 		}
 	}
 
@@ -456,6 +491,9 @@ class Mahasiswa extends CI_Controller {
 		// get dosen wali
 		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
 
+		//check pembayaran
+		$this->check_pembayaran();
+
 		// DATA
 		$data['user'] = $user_akun[0];
 		$data['krs'] = $this->krs;
@@ -479,6 +517,9 @@ class Mahasiswa extends CI_Controller {
 
 		// get dosen wali
 		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
+
+		//check pembayaran
+		$this->check_pembayaran();
 
 		// get tahun akademik
 		// $allTa = $this->m_mahasiswa->getAllData('tahun_ajaran')->result_array();
@@ -521,8 +562,12 @@ class Mahasiswa extends CI_Controller {
 		// get dosen wali
 		$dosen_wali = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun[0]['nidn']))->result_array();
 
+		//check pembayaran
+		$this->check_pembayaran();
+
 		// get nilai kumulatif
-		$ipk = $this->m_mahasiswa->getAllData('v_nilai_semester', array('npm' => $this->session->username))->result_array();
+		// $ipk = $this->m_mahasiswa->getAllData('v_nilai_semester', array('npm' => $this->session->username))->result_array();
+		$ipk = $this->m_mahasiswa->getIpk($this->session->username)->result_array();
 
 		// DATA
 		$data['user'] = $user_akun[0];

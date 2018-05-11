@@ -46,7 +46,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs tabs-left">
                 <li class="active"><a href="#profile" data-toggle="tab" id="editProfilMhs">Profil</a></li>
-                <!-- <li><a href="#orangtua" data-toggle="tab" id="editOrtuMhs">Orang Tua</a></li> -->
+                <li><a href="#password" data-toggle="tab" id="editPassDosen">Ubah Password</a></li>
                 <li><a href="<?=base_url()?>dosen/profil"><i class="fa fa-arrow-left"/></i> Kembali</a></li>
             </ul>
         </div>
@@ -167,7 +167,46 @@ if ($error == true) {
             </form>
 <!-- END OF FORM EDIT PROFILE -->
                 </div>
-                
+<div class="tab-pane" id="password">
+<!-- FORM EDIT PASSWORD -->
+<?php
+  if (@$this->session->flashdata('passsuccess') == true) {
+?>
+    <div class="alert alert-danger">Password salah
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+<?php
+  }
+?>
+            <form role="form" method="post">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Password Lama</label>
+                  <input type="password" class="form-control" name="passOld" value="" id="passOld" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Password Baru</label>
+                  <input type="password" class="form-control" name="passNew" value="" id="passNew" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Konfirmasi Password</label>
+                  <input type="password" class="form-control" name="passConf" value="" id="passConf" required>
+                </div>
+                <input type="hidden" value="<?=$login['password']?>" name='userPass' id="userPass">
+               <div id="messageError" style="color:red;">
+
+               </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary btn-xs" name="updatePass" disabled="true" id="btnSubmitPass"><i class="fa fa-refresh"></i> Update</button>
+              </div>
+            </form>
+<!-- END OF FORM EDIT PASSWORD -->                 
             </div>
         </div>
         <div class="clearfix"></div>
@@ -201,6 +240,29 @@ if ($error == true) {
   };
 
   var uri = "<?=current_full_url()?>";
+
+  var passNew = document.getElementById('passNew');
+  var passConf = document.getElementById('passConf');
+  var messageError = document.getElementById('messageError');
+  var btnSubmitPass = document.getElementById('btnSubmitPass');
+
+  passNew.onkeyup = function(){
+    if (this.value !== passConf.value) {
+      messageError.innerHTML = "*Password baru dan konfirmasi tidak sama";
+    } else {
+      messageError.innerHTML = "";
+    }
+  }
+
+  passConf.onkeyup = function(){
+    if (this.value !== passNew.value) {
+      messageError.innerHTML = "*Password baru dan konfirmasi tidak sama";
+      btnSubmitPass.disabled = true;
+    } else {
+      messageError.innerHTML = "";
+      btnSubmitPass.disabled = false;
+    }
+  }
 
 </script>
 

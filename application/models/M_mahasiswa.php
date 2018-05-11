@@ -109,6 +109,13 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getIpk($user)
+	{
+		$sql = 'SELECT a.* FROM v_nilai a INNER JOIN (SELECT npm, id_matkul, MAX(nilai) AS max_nilai FROM v_nilai WHERE npm = '.$user.' GROUP BY id_matkul) b ON a.id_matkul = b.id_matkul AND a.nilai = b.max_nilai AND a.npm = b.npm ORDER BY a.id_matkul ASC';
+		$query = $this->db->query($sql);
+		return $query;
+	}
+
 // INSERT DATA
 
 	function insertData($table, $data)

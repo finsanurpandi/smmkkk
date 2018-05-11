@@ -62,11 +62,30 @@ class M_basic extends CI_Model {
 		return $query->num_rows();
 	}
 
-	function getDistinctData($table, $row)
+	function getDistinctData($table, $row, $order = null)
 	{
 		$this->db->distinct();
 
 		$this->db->select($row);
+
+		foreach ($order as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+
+		$query = $this->db->get($table);
+
+		return $query;
+	}
+
+	function getDistinctWhereData($table, $row, $where)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		$this->db->where($where);
+
+		$this->db->order_by('tahun_ajaran', 'DESC');
 
 		$query = $this->db->get($table);
 
@@ -109,7 +128,7 @@ class M_basic extends CI_Model {
 	function insertMultiple($table1, $data1, $table2, $data2)
 	{
 		$this->db->trans_start();
-		$this->db->insert($table1, $data1);
+		$this->db->insert_batch($table1, $data1);
 		$this->db->insert($table2, $data2);
 		$this->db->trans_complete();
 	}

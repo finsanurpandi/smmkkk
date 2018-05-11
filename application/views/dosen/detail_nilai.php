@@ -183,7 +183,7 @@ if ($stt_penilaian !== 0) {
 </label> -->
                     </td>
                   </tr>
-                <?
+                <?php
                 $index++;
                 }
                 ?>

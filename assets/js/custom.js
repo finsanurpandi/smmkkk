@@ -46,11 +46,15 @@ if (role == 4) {
       baaClearMenu();
     } else if (uri == 'profil') { 
       $('#baaprofil').addClass('active');
-    } else if (uri == 'perwalian') { 
+    } else if (uri == 'perwalian' || uri == 'detail_perwalian') { 
       $('#baaperwalian').addClass('active');
     } else if (uri == 'jadwal') { 
       $('#baajadwal').addClass('active');
-    };
+    } else if (uri == 'mahasiswa') { 
+      $('#baamahasiswa').addClass('active');
+    } else if (uri == 'dosen') { 
+      $('#baadosen').addClass('active');
+    }
 };
 
 // MENU DOSEN
@@ -88,13 +92,13 @@ function mhsClearMenu(){
 if (role == 1) {
   if (uri == '') {
       mhsClearMenu();
-    } else if (uri == 'profil') { 
+    } else if (uri == 'profil' || uri == 'editdata') { 
       $('#mhsprofil').addClass('active');
     } else if (uri == 'perwalian' || uri == 'krs') { 
       $('#mhsperwalian').addClass('active');
     } else if (uri == 'perkuliahan') { 
       $('#mhsperkuliahan').addClass('active');
-    } else if (uri == 'nilai' || uri == 'ips' || uri == 'ipk') { 
+    } else if (uri == 'nilai' || uri == 'nilai_semester' || uri == 'nilai_kumulatif') { 
       $('#mhsnilai').addClass('active');
     } else if (uri == 'administrasi') {
       $('#mhsadministrasi').addClass('active');

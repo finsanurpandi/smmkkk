@@ -93,7 +93,7 @@ switch ($user['program_kekhususan']) {
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Kartu Rencana Studi (KRS)</h3>
+              <h3 class="box-title">Hasil Studi Mahasiswa (Kumulatif)</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -166,38 +166,15 @@ if ($semester == 7 && $user['program_kekhususan'] == null) {
         ?>
         </td>
       </tr>
-    </table>
-</div>
-
-<div class="col-md-6 col-sm-6 col-xs-12">
-  <table class="table borderless">
       <tr>
         <th>Semester</th>
         <td>:</td>
         <td><?=$semester.' ('.$sem.')'?></td>
       </tr>
-      <tr>
-        <th>IPK</th>
-        <td>:</td>
-        <td>NAMA</td>
-      </tr>
-      <tr>
-        <th>IPS</th>
-        <td>:</td>
-        <td>NAMA</td>
-      </tr>
-      <tr>
-        <th>SKS Lulus</th>
-        <td>:</td>
-        <td>NAMA</td>
-      </tr>
-      <tr>
-        <th>Batas</th>
-        <td>:</td>
-        <td>NAMA</td>
-      </tr>
     </table>
 </div>
+
+<!--   -->
 </div>
 
 <div class="table-responsive">
@@ -231,12 +208,25 @@ $totalnilai = 0;
 <?php
     }
 $no = 1;
-
+$color = null;
     foreach ($mk as $key => $value) {
 
       if ($value['semester'] == $i && ($value['program_kekhususan'] == 0 || $value['program_kekhususan'] == $pk)) {
+        foreach ($ipk as $key => $hasil) {
+          if ($hasil['id_matkul'] == $value['id']) {
+            if ($hasil['nilai'] == 0) {
+            
 ?>
-      <tr>
+      <tr class="danger">
+<?php
+            } else if ($hasil['nilai'] == 1){
+              echo "<tr class='warning'>";
+            } else {
+              echo "<tr>";
+            }
+          }
+        }
+?>
         <td><?=$no++?></td>
         <td><?=$value['kode_matkul']?></td>
         <td><?=$value['nama_matkul']?></td>
@@ -298,7 +288,7 @@ $no = 1;
       <th></th>
       <th>Total SKS</th>
       <th><?=$totalsks?> SKS</th>
-      <th><?=round($totalnilai/$totalsks, 2)?></th>
+      <th><?=@round($totalnilai/$totalsks, 2)?></th>
     </tr>
   
     

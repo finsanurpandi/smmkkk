@@ -8,6 +8,12 @@ class Baa extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_baa');
 		$this->load->library('upload');	
+
+		$login = $this->session->userdata("login_in");
+		if(!isset($login))
+        {
+        	redirect('login','refresh');
+        }
 	}
 
 
@@ -53,6 +59,180 @@ class Baa extends CI_Controller {
 		$this->set_view('baa/profil', $data);	
 	}
 
+	function mahasiswa()
+	{
+		// get data user
+		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
+
+		// get data mahasiswa
+		$mhs = $this->m_baa->getAllData('mahasiswa', null, array('angkatan' => 'ASC'))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['mhs'] = $mhs;
+
+		// funtion view
+		$this->set_view('baa/mahasiswa', $data);
+
+		// Tambah Mahasiswa
+		$tmbhMhs = $this->input->post('tambahMahasiswa');
+		if (isset($tmbhMhs)) {
+			$data = array(
+					'npm' => $this->input->post('npm'),
+					'nama' => $this->input->post('nama'),
+					'angkatan' => $this->input->post('angkatan'),
+					'kelas' => $this->input->post('kelas'),
+					'jenis_kelamin' => $this->input->post('jeniskelamin'),
+					'nidn' => '000'
+					);
+
+			$data2 = array(
+					'username' => $this->input->post('npm'),
+					'password' => md5($this->input->post('npm')),
+					'role' => '1'
+					);
+
+			$this->m_baa->insertMultiple('mahasiswa', $data, 'login', $data2);
+
+			$this->session->set_flashdata('success', true);
+
+			redirect($this->uri->uri_string());
+		}
+	}
+
+	function detail_mahasiswa($npm)
+	{
+		$npm = $this->encrypt->decode($npm);
+
+		// get data user
+		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
+
+		// get data mahasiswa
+		$mhs = $this->m_baa->getAllData('mahasiswa', array('npm' => $npm))->result_array();
+
+		// get data orangtua
+		$orangtua = $this->m_baa->getAllData('mhs_ortu', array('npm' => $npm))->result_array();
+
+		// get data nilai
+		$nilai = $this->m_baa->getAllData('v_nilai', array('npm' => $npm), array('tahun_ajaran' => 'ASC'))->result_array();
+		
+		// set user 'kelas'
+		$this->session->set_userdata('kelas', $mhs[0]['kelas']);
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['ortu'] = @$orangtua[0];
+		$data['mhs'] = $mhs[0];
+		$data['nilai'] = $nilai;
+		$data['error'] = $this->upload->display_errors();
+
+		// funtion view
+		$this->set_view('baa/detail_mahasiswa', $data);
+
+		// $updateProfil = $this->input->post('updateProfil');
+
+		// if (isset($updateProfil)) {
+		// 	$data = array(
+		// 		'tempat_lahir' => $this->input->post('tempat_lahir'),
+		// 		'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+		// 		'alamat' => $this->input->post('alamat'),
+		// 		'no_tlp' => $this->input->post('no_tlp'),
+		// 		'email' => $this->input->post('email'),
+		// 		'status_tempat_tinggal' => $this->input->post('stt_tempat_tinggal')
+		// 	);
+
+		// 	$img_path = $this->input->post('path');
+
+		// 	$this->configImage('profiles');
+
+
+		// 	if (!$this->upload->do_upload('gambar')) {
+		// 		$this->m_mahasiswa->updateData('mahasiswa', $data, array('npm' => $this->session->username));
+
+		// 		$this->session->set_flashdata('profilsuccess', true);
+
+		// 		redirect($this->uri->uri_string()."?tab=profile");
+		// 	} else {
+
+		// 		$fileinfo = $this->upload->data();
+
+		// 		$data['image'] = $fileinfo['file_name'];
+		// 		$this->m_mahasiswa->updateData('mahasiswa', $data, array('npm' => $this->session->username));
+
+		// 		@unlink("./assets/uploads/profiles/". $img_path);
+
+		// 		$this->session->set_flashdata('profilsuccess', true);
+
+		// 		redirect($this->uri->uri_string()."?tab=profile", 'refresh');
+		// 	}
+
+			
+
+		// 	//redirect($this->uri->uri_string()."?tab=profile");
+		// }
+
+		// $updateOrtu = $this->input->post('updateOrtu');
+
+		// if (isset($updateOrtu)) {
+		// 	$data = array(
+		// 		'nama_ayah' => $this->input->post('nama_ayah'),
+		// 		'nama_ibu' => $this->input->post('nama_ibu'),
+		// 		'alamat' => $this->input->post('alamat'),
+		// 		'no_tlp' => $this->input->post('no_tlp')
+		// 	);
+
+		// 	$this->m_mahasiswa->updateData('mhs_ortu', $data, array('npm' => $this->session->username));
+
+		// 	$this->session->set_flashdata('ortusuccess', true);
+
+		// 	redirect($this->uri->uri_string()."?tab=orangtua");
+		// }
+	}
+
+	function dosen()
+	{
+		// get data user
+		$user_akun = $this->m_baa->getAllData('staff', array('username' => $this->session->username))->result_array();
+
+		// get data mahasiswa
+		$dosen = $this->m_baa->getAllData('dosen', array('status' => 1))->result_array();
+
+		// DATA
+		$data['user'] = $user_akun[0];
+		$data['dosen'] = $dosen;
+
+		// funtion view
+		$this->set_view('baa/dosen', $data);
+
+		// Tambah Dosen
+		$tmbhDosen = $this->input->post('tambahDosen');
+		if (isset($tmbhDosen)) {
+			$data = array(
+					'nidn' => $this->input->post('nidn'),
+					'nik' => $this->input->post('nik'),
+					'nama' => $this->input->post('nama'),
+					'gelar_depan' => $this->input->post('gelar_depan'),
+					'gelar_belakang' => $this->input->post('gelar_belakang'),
+					'jenis_kelamin' => $this->input->post('jeniskelamin'),
+					'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
+					'golongan' => $this->input->post('golongan'),
+					'jabatan_struktural' => $this->input->post('jabatan_struktural'),
+					);
+
+			$data2 = array(
+					'username' => $this->input->post('nidn'),
+					'password' => md5($this->input->post('nidn')),
+					'role' => '2'
+					);
+
+			$this->m_baa->insertMultiple('dosen', $data, 'login', $data2);
+
+			$this->session->set_flashdata('success', true);
+
+			redirect($this->uri->uri_string());
+		}
+	}
+
 	function perwalian()
 	{
 		// get data user
@@ -90,7 +270,7 @@ class Baa extends CI_Controller {
 		$sttperwalian = $this->m_baa->getAllData('stt_perwalian', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// get data KRS
-		$data_krs = $this->m_baa->getAllData('v_mhs_perwalian', array('npm' => $npm))->result_array();
+		$data_krs = $this->m_baa->getAllData('v_mhs_perwalian', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// get Chat
 		$chat = $this->m_baa->getAllData('chat', array('room' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();

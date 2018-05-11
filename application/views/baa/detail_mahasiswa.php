@@ -7,8 +7,8 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?=base_url()?>mahasiswa/profil">Profil</a></li>
-        <li class="active">Edit Profil</li>
+        <li class="active">Data Mahasiswa</li>
+        <li class="active">Detail Mahasiswa</li>
       </ol>
     </section>
 
@@ -19,7 +19,7 @@
           <div class="box box-danger">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Edit Data Mahasiswa</h3>
+              <h3 class="box-title">Detail Data Mahasiswa</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -33,7 +33,8 @@
             <ul class="nav nav-tabs tabs-left">
                 <li class="active"><a href="#profile" data-toggle="tab" id="editProfilMhs">Profil</a></li>
                 <li><a href="#orangtua" data-toggle="tab" id="editOrtuMhs">Orang Tua</a></li>
-                <li><a href="#password" data-toggle="tab" id="editPassMhs">Ubah Password</a></li>
+                <li><a href="#histori_nilai" data-toggle="tab" id="editNilaiMhs">Histori Nilai</a></li>
+                <li><a href="<?=base_url()?>baa/mahasiswa" id="editNilaiMhs">Kembali</a></li>
             </ul>
         </div>
         <div class="col-xs-12 col-md-8">
@@ -67,44 +68,72 @@ if ($error == true) {
 <?php
   }
 ?>
+        <div class="text-center">
+                <?php
+                  if ($mhs['image'] == null) {
+                    if ($mhs['jenis_kelamin'] == 'L') {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                    } else {
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                    };
+                  } else {
+                  ?>
+                    <img src="<?=base_url('assets/uploads/profiles/'.$mhs['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
+                  <?php
+                  } 
+                 ?>
+          
+        </div> <!-- col-md-2 -->
             <form role="form" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">NPM</label>
-                  <input class="form-control" value="<?=$user['npm']?>" disabled>
+                  <input class="form-control" value="<?=$mhs['npm']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Nama Mahasiswa</label>
-                  <input class="form-control" value="<?=$user['nama']?>" disabled>
+                  <input class="form-control" value="<?=$mhs['nama']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Kelas</label>
-                  <input class="form-control" value="<?=$user['kelas']?>" disabled>
+                  <select class="form-control" name="kelas" id="kelas">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Tahun Masuk</label>
-                  <input class="form-control" value="<?=$user['angkatan']?>" disabled>
+<select class="form-control" id="tahun_masuk">
+<?php
+  for ($i=date('Y'); $i >= 2014 ; $i--) { 
+?>
+                  <option value="<?=$i?>"><?=$i?></option>
+<?php } ?>
+</select>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Tempat Lahir</label>
-                  <input type="text" class="form-control" name="tempat_lahir" value="<?=$user['tempat_lahir']?>">
+                  <input type="text" class="form-control" name="tempat_lahir" value="<?=$mhs['tempat_lahir']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Tanggal Lahir</label>
-                  <input type="date" class="form-control" name="tanggal_lahir" value="<?=$user['tanggal_lahir']?>">
+                  <input type="date" class="form-control" name="tanggal_lahir" value="<?=$mhs['tanggal_lahir']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Alamat</label>
-                  <textarea class="form-control" name="alamat" rows="3"><?=$user['alamat']?>
+                  <textarea class="form-control" name="alamat" rows="3"><?=$mhs['alamat']?>
                   </textarea>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">No Telepon</label>
-                  <input type="number" class="form-control" name="no_tlp" value="<?=$user['no_tlp']?>">
+                  <input type="number" class="form-control" name="no_tlp" value="<?=$mhs['no_tlp']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email</label>
-                  <input type="email" class="form-control" name="email" value="<?=$user['email']?>">
+                  <input type="email" class="form-control" name="email" value="<?=$mhs['email']?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Status Tempat Tinggal</label>
@@ -115,33 +144,7 @@ if ($error == true) {
                     <option>Asrama</option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">Picture Image</label>
-                  <div class="row">
-                    <div class="col-md-2">
-                      <?php
-                      if ($user['image'] == null) {
-                        if ($user['jenis_kelamin'] == 'L') {
-                          echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
-                        } else {
-                          echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
-                        };
-                      } else {
-                      ?>
-                        <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
-                      <?php
-                      } 
-                     ?>
-                    </div>
-                    <div class="col-md-8">
-                      <input type="file" id="exampleInputFile" name="gambar">
-                      <input type="hidden" name="path" value="<?=$user['image']?>">
-                      <p class="help-block">- Disarankan menggunakan gambar dengan ratio 1:1</p>
-                      <p class="help-block">- Kosongkan jika tidak akan mengganti picture image</p>
-                    </div>
-                  </div>
-                  
-                </div>
+
                 <!-- <div class="checkbox">
                   <label>
                     <input type="checkbox"> Check me out
@@ -199,46 +202,59 @@ if ($error == true) {
             </form>
 <!-- END OF FORM EDIT ORANG TUA -->                  
                 </div>
-<div class="tab-pane" id="password">
-<!-- FORM EDIT PASSWORD -->
+
+
+<div class="tab-pane" id="histori_nilai">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Kode Matakuliah</th>
+      <th>Nama Matakuliah</th>
+      <th>Tahun Akademik</th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
 <?php
-  if (@$this->session->flashdata('passsuccess') == true) {
+$no = 1;
+foreach ($nilai as $key => $value) {
 ?>
-    <div class="alert alert-danger">Password salah
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-<?php
-  }
-?>
-            <form role="form" method="post">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Password Lama</label>
-                  <input type="password" class="form-control" name="passOld" value="" id="passOld" required>
+    <tr>
+      <td><?=$no++?></td>
+      <td><?=$value['kode_matkul']?></td>
+      <td><?=$value['nama_matkul']?></td>
+      <td><?=$value['tahun_ajaran']?></td>
+      <td>
+      <?php
+        switch ($value['nilai']) {
+                        case '4':
+                          echo "A";
+                          break;
+                        case '3':
+                          echo "B";
+                          break;
+                        case '2':
+                          echo "C";
+                          break;
+                        case '1':
+                          echo "D";
+                          break;
+                        case '0':
+                          echo "E";
+                          break;
+                        default:
+                          # code...
+                          break;
+        }
+      ?>
+      </td>
+    </tr>
+<?php } ?>
+  </tbody>
+</table>             
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Password Baru</label>
-                  <input type="password" class="form-control" name="passNew" value="" id="passNew" required>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Konfirmasi Password</label>
-                  <input type="password" class="form-control" name="passConf" value="" id="passConf" required>
-                </div>
-                <input type="hidden" value="<?=$login['password']?>" name='userPass' id="userPass">
-               <div id="messageError" style="color:red;">
 
-               </div>
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary btn-xs" name="updatePass" disabled="true" id="btnSubmitPass"><i class="fa fa-refresh"></i> Update</button>
-              </div>
-            </form>
-<!-- END OF FORM EDIT PASSWORD --> 
             </div>
         </div>
         <div class="clearfix"></div>
@@ -266,41 +282,28 @@ if ($error == true) {
   var tempatTinggal = document.getElementById('tempat_tinggal');
 
   for (var i = 0; i < tempatTinggal.options.length; i++) {
-    if (tempatTinggal.options[i].value == "<?=$user['status_tempat_tinggal']?>") {
+    if (tempatTinggal.options[i].value == "<?=$mhs['status_tempat_tinggal']?>") {
       tempatTinggal.options[i].setAttribute('selected', 'true');
     };
   };
 
+  var kelas = document.getElementById('kelas');
+
+  for (var i = 0; i < kelas.options.length; i++) {
+    if (kelas.options[i].value == "<?=$mhs['kelas']?>") {
+      kelas.options[i].setAttribute('selected', 'true');
+    };
+  };
+
+  var tahun = document.getElementById('tahun_masuk');
+console.log(tahun);
+  for (var i = 0; i < tahun.options.length; i++) {
+    if (tahun.options[i].value == "<?=$mhs['angkatan']?>") {
+      tahun.options[i].setAttribute('selected', 'true');
+    };
+  };
+
   var uri = "<?=current_full_url()?>";
-
-  var passOld = document.getElementById('passOld');
-  var passNew = document.getElementById('passNew');
-  var passConf = document.getElementById('passConf');
-  var messageError = document.getElementById('messageError');
-  var btnSubmitPass = document.getElementById('btnSubmitPass');
-
-  // if (passOld.value.length == 0) {
-  //     messageError.innerHTML = "*Password baru dan konfirmasi tidak sama";
-  //     btnSubmitPass.disabled = true;
-  // };
-
-  passNew.onkeyup = function(){
-    if (this.value !== passConf.value) {
-      messageError.innerHTML = "*Password baru dan konfirmasi tidak sama";
-    } else {
-      messageError.innerHTML = "";
-    }
-  }
-
-  passConf.onkeyup = function(){
-    if (this.value !== passNew.value) {
-      messageError.innerHTML = "*Password baru dan konfirmasi tidak sama";
-      btnSubmitPass.disabled = true;
-    } else {
-      messageError.innerHTML = "";
-      btnSubmitPass.disabled = false;
-    }
-  }
 
 </script>
 

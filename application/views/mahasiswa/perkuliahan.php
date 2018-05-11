@@ -147,10 +147,15 @@ if ($user['program_kekhususan'] == null) {
         ?>
         </td>
       </tr>
+      <tr>
+        <th>Semester</th>
+        <td>:</td>
+        <td><?=$semester.' ('.$sem.')'?></td>
+      </tr>
     </table>
 </div>
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<!-- <div class="col-md-6 col-sm-6 col-xs-12">
   <table class="table borderless">
       <tr>
         <th>Semester</th>
@@ -178,7 +183,7 @@ if ($user['program_kekhususan'] == null) {
         <td>NAMA</td>
       </tr>
     </table>
-</div>
+</div> -->
 </div>
 
 <?php
@@ -191,7 +196,7 @@ if ($sttperwalian !== 0) {
     <tr class="danger">
       <th>Hari</th>
       <th>Waktu</th>
-      <th>Nama Matkul</th>
+      <th>Kode - Nama Matkul</th>
       <th>Ruang</th>
       <th>Dosen</th>
     </tr>
@@ -275,7 +280,7 @@ for ($i=0; $i < $thari; $i++) {
       echo "<td>".ucfirst($hari[$i])."</td>";
     }
 
-    echo "<td>".${'waktu'.$i}[$j]."3</td>";
+    echo "<td>".${'waktu'.$i}[$j]."</td>";
     echo "<td>".${'matkul'.$i}[$j]."</td>";
     echo "<td>".${'ruang'.$i}[$j]."</td>";
     echo "<td>".${'dosen'.$i}[$j]."</td>";

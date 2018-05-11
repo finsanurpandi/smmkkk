@@ -59,6 +59,19 @@
             <span>Dosen</span>
           </a>
         </li>
+        <li id="adminnilai" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Input Nilai</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="<?=base_url()?>admin/input_jadwal"><i class="fa fa-circle-o"></i> Jadwal</a></li>
+            <li><a href="<?=base_url()?>admin/input_krs"><i class="fa fa-circle-o"></i> KRS</a></li>
+            <li><a href="<?=base_url()?>admin/input_nilai"><i class="fa fa-circle-o"></i> Nilai</a></li>
+          </ul>
+        </li>
 <?php
   } elseif ($this->session->role == 1) { // ROLE MAHASISWA
 ?>
@@ -112,25 +125,25 @@
 ?>
         <li id="dosenprofil" class="treeview">
           <a href="<?=base_url()?>dosen/profil">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-user"></i>
             <span>Profil</span>
           </a>
         </li>
         <li id="dosenperwalian" class="treeview">
           <a href="<?=base_url()?>dosen/perwalian">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-pencil"></i>
             <span>Perwalian</span>
           </a>
         </li>
         <li id="dosenjadwal" class="treeview">
           <a href="<?=base_url()?>dosen/jadwal">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-calendar"></i>
             <span>Jadwal Matakuliah</span>
           </a>
         </li>
         <li id="dosennilai" class="treeview">
           <a href="<?=base_url()?>dosen/nilai">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-tasks"></i>
             <span>Nilai Matakuliah</span>
           </a>
         </li>
@@ -158,12 +171,12 @@
             <span>Registrasi</span>
           </a>
         </li>
-        <li id="bakkuliah">
+        <!-- <li id="bakkuliah">
           <a href="<?=base_url()?>bak/kuliah">
             <i class="fa fa-credit-card"></i>
             <span>Biaya Kuliah Mahasiswa</span>
           </a>
-        </li>
+        </li> -->
         <li id="bakpembayaran">
           <a href="<?=base_url()?>bak/pembayaran">
             <i class="fa fa-credit-card"></i>
@@ -186,15 +199,27 @@
             <span>Profil</span>
           </a>
         </li>
+        <li id="baamahasiswa" class="treeview">
+          <a href="<?=base_url()?>baa/mahasiswa">
+            <i class="fa fa-users"></i>
+            <span>Data Mahasiswa</span>
+          </a>
+        </li>
+        <li id="baadosen" class="treeview">
+          <a href="<?=base_url()?>baa/dosen">
+            <i class="fa fa-user-plus"></i>
+            <span>Data Dosen</span>
+          </a>
+        </li>
         <li id="baaperwalian" class="treeview">
           <a href="<?=base_url()?>baa/perwalian">
-            <i class="fa fa-tasks"></i>
+            <i class="fa fa-pencil"></i>
             <span>Perwalian</span>
           </a>
         </li>
         <li id="baajadwal" class="treeview">
           <a href="<?=base_url()?>baa/jadwal">
-            <i class="fa fa-pencil-square"></i>
+            <i class="fa fa-calendar"></i>
             <span>Jadwal Matakuliah</span>
           </a>
         </li>

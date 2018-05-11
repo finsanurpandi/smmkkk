@@ -8,6 +8,12 @@ class Bak extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_bak');
 		$this->load->library('upload');	
+
+		$login = $this->session->userdata("login_in");
+		if(!isset($login))
+        {
+        	redirect('login','refresh');
+        }
 	}
 
 

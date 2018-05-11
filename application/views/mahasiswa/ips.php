@@ -93,7 +93,7 @@ switch ($user['program_kekhususan']) {
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Jadwal Perkuliahan Mahasiswa</h3>
+              <h3 class="box-title">Hasil Studi Mahasiswa (Semester)</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -147,10 +147,15 @@ if ($user['program_kekhususan'] == null) {
         ?>
         </td>
       </tr>
+      <tr>
+        <th>Semester</th>
+        <td>:</td>
+        <td><?=$semester.' ('.$sem.')'?></td>
+      </tr>
     </table>
 </div>
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<!-- <div class="col-md-6 col-sm-6 col-xs-12">
   <table class="table borderless">
       <tr>
         <th>Semester</th>
@@ -178,20 +183,21 @@ if ($user['program_kekhususan'] == null) {
         <td>NAMA</td>
       </tr>
     </table>
-</div>
+</div> -->
 </div>
 <hr/>
 <form class="form-inline" method="post">
   <div class="form-group">
-    <p class="form-control-static">Tahun ajaran</p>
+    <p class="form-control-static">Semester</p>
   </div>
   <div class="form-group">
     <select name="tahunajaran" id="tahunajaran" class="form-control" style="width:auto;" onchange="this.form.submit();">
 
 <?php
   foreach ($allTa as $key => $value) {
+    $smstr = ((substr($value['tahun_ajaran'], 0,4)-$user['angkatan'])*2)+substr($value['tahun_ajaran'], -1);
 ?>
-      <option value="<?=$value['tahun_ajaran']?>"><?=$value['tahun_ajaran']?></option>
+      <option value="<?=$value['tahun_ajaran']?>"><?=$smstr?></option>
 
 <?php } ?>
 
@@ -267,12 +273,18 @@ if ($value['nilai'] !== null) {
                   <th></th>
                   <th></th>
                   <th>Total <?=$total?> SKS</th>
-                  <th colspan="2">IP Semester => <?=round($totalnilai/$totalsks, 2)?></th>
+                  <th colspan="2">IP Semester => <?=@round($totalnilai/$totalsks, 2)?></th>
                   
                 </tr>
                 </tfoot>
               </table>
               </div>
+              <small>
+              <em>Keterangan :</em><br/>
+              <em>AM = Angka Mutu</em>
+              <br/>
+              <em>HM = Huruf Mutu</em>
+              </small>
 
 
 <!-- END OF CONTENT  -->
@@ -286,6 +298,16 @@ if ($value['nilai'] !== null) {
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <script type="text/javascript">
+  var tahunajaran = document.getElementById('tahunajaran');
+
+    for (var i = 0; i < tahunajaran.options.length; i++) {
+      if (tahunajaran.options[i].value == <?=$tahunajaran?>) {
+        tahunajaran.options[i].setAttribute('selected', 'true');
+      };
+    };
+  </script>
 
 
   

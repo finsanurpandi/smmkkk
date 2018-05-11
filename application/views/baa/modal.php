@@ -171,6 +171,155 @@
 </div>
 
 
+<!-- Tambah data mahasiswa -->
+<div class="modal fade modal-primary-custom" id="adminTambahMhs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Mahasiswa</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="npm">NPM</label>
+            <input class="form-control" type="text" name="npm" id="npm" onchange="checkNpmAdmin();">
+            <div id="statusUser"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="npm">Nama</label>
+            <input class="form-control" type="text" name="nama" id="nama">
+        </div>
+        
+        <div class="form-group">
+            <label for="nama">Angkatan</label>
+            <input class="form-control" type="year" name="angkatan" id="angkatan">
+        </div>
+
+        <div class="form-group">
+            <label for="nama">Kelas</label>
+            <select name="kelas" class="form-control">
+              <option>---</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Jenis Kelamin">Jenis Kelamin</label>
+            <br/>
+            <label class="radio-inline">
+              <input type="radio" name="jeniskelamin" id="inlineRadio1" value="L"> Laki-laki
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="jeniskelamin" id="inlineRadio2" value="P"> Wanita
+            </label>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" name="tambahMahasiswa" id="btnTambahMahasiswa" disabled="true">Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tambah data DOSEN -->
+<div class="modal fade modal-primary-custom" id="adminTambahDosen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="npm">NIDN</label>
+            <input class="form-control" type="text" name="nidn" id="nidn" onchange="checkNidnAdmin();">
+            <div id="statusDosen"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="npm">NIK</label>
+            <input class="form-control" type="text" name="nik" id="nik">
+        </div>
+
+        <div class="form-group">
+            <label for="npm">Nama</label>
+            <input class="form-control" type="text" name="nama" id="nama">
+        </div>
+        
+        <div class="form-group">
+            <label for="nama">Gelar Depan</label>
+            <input class="form-control" type="text" name="gelar_depan" id="gelar_depan">
+        </div>
+
+        <div class="form-group">
+            <label for="nama">Gelar Belakang</label>
+            <input class="form-control" type="text" name="gelar_belakang" id="gelar_belakang">
+        </div>
+
+        <div class="form-group">
+            <label for="Jenis Kelamin">Jenis Kelamin</label>
+            <br/>
+            <label class="radio-inline">
+              <input type="radio" name="jeniskelamin" id="inlineRadio1" value="L"> Laki-laki
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="jeniskelamin" id="inlineRadio2" value="P"> Wanita
+            </label>
+        </div>
+
+        <div class="form-group">
+          <label for="nama">Jabatan Fungsional</label>
+          <select class="form-control" name="jabatan_fungsional" id="jabfung" onchange="selectJabfung();">
+            <option>---</option>
+            <option value="Asisten Ahli">Asisten Ahli</option>
+            <option value="Lektor">Lektor</option>
+            <option value="Lektor Kepala">Lektor Kepala</option>
+            <option value="Guru Besar">Guru Besar</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nama">Golongan</label>
+          <select class="form-control" name="golongan" id="golonganAdmin" disabled="true">
+            <option></option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nama">Jabatan Struktural</label>
+          <select class="form-control" name="jabatan_struktural">
+            <option>---</option>
+            <option value="Asisten Ahli">Asisten Ahli</option>
+            <option value="Lektor">Lektor</option>
+            <option value="Lektor Kepala">Lektor Kepala</option>
+            <option value="Guru Besar">Guru Besar</option>
+          </select>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" name="tambahDosen" id="btnTambahDosen" disabled="true">Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 

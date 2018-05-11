@@ -8,6 +8,13 @@ class Dosen extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_dosen');
 		$this->load->library('upload');	
+
+		$login = $this->session->userdata("login_in");
+		if(!isset($login))
+        {
+        	redirect('login','refresh');
+        }
+
 	}
 
 	function configImage($url)
@@ -70,9 +77,10 @@ class Dosen extends CI_Controller {
 	{
 		// get data user
 		$user_akun = $this->m_dosen->getAllData('dosen', array('nidn' => $this->session->username))->result_array();
-
+		$user_login = $this->m_dosen->getAllData('login', array('username' => $this->session->username))->result_array();
 		// DATA
 		$data['user'] = $user_akun[0];
+		$data['login'] = $user_login[0];
 		$data['error'] = $this->upload->display_errors();
 
 		// funtion view
@@ -111,7 +119,30 @@ class Dosen extends CI_Controller {
 
 				$this->session->set_flashdata('profilsuccess', true);
 
-				redirect($this->uri->uri_string());
+				redirect($this->uri->uri_string()."?tab=profile");
+			}
+
+		}
+
+		$updatePass = $this->input->post('updatePass');
+		$oldPass = md5($this->input->post('passOld'));
+		$userPass = $this->input->post('userPass');
+
+		if (isset($updatePass)) {
+
+			if ($oldPass !== $userPass) {
+				$this->session->set_flashdata('passsuccess', true);
+
+				redirect($this->uri->uri_string()."?tab=password");
+			} else {
+				$data = array(
+					'password' => md5($this->input->post('passNew'))
+				);
+
+				$this->m_dosen->updateData('login', $data, array('username' => $this->session->username));
+
+				$this->session->sess_destroy();
+				redirect('login', 'refresh');
 			}
 
 		}
@@ -153,7 +184,7 @@ class Dosen extends CI_Controller {
 		$sttperwalian = $this->m_dosen->getAllData('stt_perwalian', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// get data KRS
-		$data_krs = $this->m_dosen->getAllData('v_mhs_perwalian', array('npm' => $npm))->result_array();
+		$data_krs = $this->m_dosen->getAllData('v_mhs_perwalian', array('npm' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 
 		// get Chat
 		$chat = $this->m_dosen->getAllData('chat', array('room' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
@@ -279,18 +310,18 @@ class Dosen extends CI_Controller {
 		//$mhs = $this->m_dosen->getAllData('v_mhs_jadwal', array('id_matkul' => $idmatkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('npm' => 'ASC'))->result_array();
 		
 		// get status penilaian
-		$stt_penilaian = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->num_rows();
-		$stt_penilaian_row = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
+		@$stt_penilaian = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->num_rows();
+		@$stt_penilaian_row = $this->m_dosen->getAllData('stt_penilaian', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
 
 		// get data nilai
-		$nilai = $this->m_dosen->getAllData('v_nilai', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
+		@$nilai = $this->m_dosen->getAllData('v_nilai', array('id_jadwal' => $jadwal[0]['id_jadwal']))->result_array();
 
 		// DATA
 		$data['user'] = $user_akun[0];
-		$data['jadwal'] = $jadwal[0];
-		$data['id_jadwal'] = $jadwal[0]['id_jadwal'];
+		$data['jadwal'] = @$jadwal[0];
+		$data['id_jadwal'] = @$jadwal[0]['id_jadwal'];
 		$data['krs'] = $jadwal;
-		$data['stt_penilaian'] = $stt_penilaian;
+		$data['stt_penilaian'] = @$stt_penilaian;
 		$data['stt_penilaian_row'] = @$stt_penilaian_row[0];
 		$data['nilai'] = $nilai;
 		//$data['mhs'] = $mhs;
